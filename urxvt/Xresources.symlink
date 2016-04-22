@@ -1,0 +1,125 @@
+! for reinit config use:
+! xrdb -merge ~/.Xresources
+!
+
+
+! solarized colors
+URxvt.intensityStyles: false
+
+
+
+#define S_base03        #002b36
+#define S_base02        #073642
+#define S_base01        #586e75
+#define S_base00        #657b83
+#define S_base0         #839496
+#define S_base1         #93a1a1
+#define S_base2         #eee8d5
+#define S_base3         #fdf6e3
+
+*background:            S_base3
+*foreground:            S_base00
+*fadeColor:             S_base3
+*cursorColor:           S_base01
+*pointerColorBackground:S_base1
+*pointerColorForeground:S_base01
+
+#define S_yellow        #b58900
+#define S_orange        #cb4b16
+#define S_red           #dc322f
+#define S_magenta       #d33682
+#define S_violet        #6c71c4
+#define S_blue          #268bd2
+#define S_cyan          #2aa198
+#define S_green         #859900
+
+!! black dark/light
+*color0:                S_base02
+*color8:                S_base03
+
+!! red dark/light
+*color1:                S_red
+*color9:                S_orange
+
+!! green dark/light
+*color2:                S_green
+*color10:               S_base01
+
+!! yellow dark/light
+*color3:                S_yellow
+*color11:               S_base00
+
+!! blue dark/light
+*color4:                S_blue
+*color12:               S_base0
+
+!! magenta dark/light
+*color5:                S_magenta
+*color13:               S_violet
+
+!! cyan dark/light
+*color6:                S_cyan
+*color14:               S_base1
+
+!! white dark/light
+*color7:                S_base2
+*color15:               S_base3
+
+
+! Установка шрифта "Droid Sans Mono Italic" с размером 15 пунктов c сглаживанием
+URxvt.font: xft:Droid Sans Mono:pixelsize=15:antialias=true
+URxvt.boldFont: xft:Droid Sans Mono:bold:pixelsize=15:antialias=true
+
+! Мерцание курсора
+URxvt.cursorBlink: true
+!
+! Скроллбар: присутствует
+URxvt*scrollBar: false
+!
+! первоночальный размер окна
+URxvt.geometry: 80x25
+
+! подгружаем плагины
+URxvt.perl-ext-common:      default,url-select,resize-font,clipboard,keyboard-select
+!
+! for Yankable URLs (no mouse)
+! alt+u Enter selection mode
+! j - select downward URL
+! k - select upward URL
+! Return - open selected URL and quit sel mode
+! o - open in url and stay un selection mode
+! y - copy selected ULR and quit selection mode
+! URxvt.url-select.launcher:  /usr/bin/firefox
+URxvt.keysym.M-u:           perl:url-select:select_next
+URxvt.url-select.launcher: /usr/bin/xdg-open
+URxvt.url-select.underline: ture
+! Resize font by keyboard on fly
+! install urxvt-resize-font-git from the AUR
+URxvt.resize-font.smaller: C-minus
+URxvt.resize-font.bigger: C-equal
+
+! Clipboard 
+URxvt.iso14755: False
+URxvt.keysym.Shift-Control-C: perl:clipboard:copy
+URxvt.keysym.Shift-Control-V: perl:clipboard:paste
+
+! Keyboard-selection
+! h/j/k/l:    Move cursor left/down/up/right (also with arrow keys)
+! g/G/0/^/$/H/M/L/f/F/;/,/w/W/b/B/e/E: More vi-like cursor movement keys
+! '/'/?:      Start forward/backward search
+! n/N:        Repeat last search, N: in reverse direction
+! Ctrl-f/b:   Scroll down/up one screen
+! Ctrl-d/u:   Scroll down/up half a screen
+! v/V/Ctrl-v: Toggle normal/linewise/blockwise selection
+! y/Return:   Copy selection to primary buffer, Return: quit afterwards
+! Y:          Copy selected lines to primary buffer or cursor line and quit
+! q/Escape:   Quit keyboard selection mode!
+URxvt.keysym.M-Escape: perl:keyboard-select:activate
+URxvt.keysym.M-s: perl:keyboard-select:search
+
+
+! URxvt.perl-ext-common:  default,tabbedex
+! URxvt.tabbed.autohide: true
+! URxvt.keysym.Control-t: perl:tabbedex:new_tab
+! URxvt.keysym.Control-Tab: perl:tabbedex:next_tab
+! URxvt.keysym.Control-Shift-Tab: perl:tabbedex:prev_tab

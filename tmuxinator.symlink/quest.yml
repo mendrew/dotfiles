@@ -1,0 +1,44 @@
+# ~/.tmuxinator/quest.yml
+
+name: quest
+root: ~/QuestSpace/questroom-head
+
+# Optional tmux socket
+# socket_name: foo
+
+# Runs before everything. Use it to start daemons etc.
+# pre: sudo /etc/rc.d/mysqld start
+
+# Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
+# pre_window: rbenv shell 2.0.0-p247
+
+# Pass command line options to tmux. Useful for specifying a different tmux.conf.
+# tmux_options: -f ~/.tmux.mac.conf
+
+# Change the command to call tmux.  This can be used by derivatives/wrappers like byobu.
+# tmux_command: byobu
+
+# Specifies (by name or index) which window will be selected on project startup. If not set, the first window is used.
+# startup_window: logs
+
+# Controls whether the tmux session should be attached to automatically. Defaults to true.
+# attach: false
+
+# Runs after everything. Use it to attach to tmux with custom options etc.
+# post: tmux -CC attach -t device-master
+
+windows:
+  - editor:
+      layout: 926e,136x41,0,0[136x38,0,0,0,136x2,0,39,2]
+      panes:
+        - vim .
+        - python2.7
+  - server:
+      layout: 0b6e,136x41,0,0{80x41,0,0[80x20,0,0,0,80x20,0,21,4],55x41,81,0,2}
+      panes:
+        - tmux send "DEBUG_MASTER=1 python2.7 server.py"
+        - htop
+        - cd tests; tmux send "python2.7 pass_quest.py"
+  - console:
+      panes:
+        - firefox --new-window; firefox --url dashboard.html index.html http://localhost:8888/?id=1 http://localhost:8888/?id=2 http://localhost:8888/dashboard
