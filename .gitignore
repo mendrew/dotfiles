@@ -1,5 +1,6 @@
 /tmux.symlink/plugins/*
 !/tmux.symlink/plugins/tpm/
 
-/vim.symlink/bundle/
+/vim.symlink/bundle/*
+!/vim.symlink/bundle/Vundle.vim
 /vim.symlink/.netrwhist
