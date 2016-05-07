@@ -80,7 +80,7 @@ URxvt*scrollBar: false
 URxvt.geometry: 80x25
 
 ! подгружаем плагины
-URxvt.perl-ext-common:      default,url-select,resize-font,clipboard,keyboard-select
+URxvt.perl-ext-common:      default,url-select,clipboard,keyboard-select
 !
 ! for Yankable URLs (no mouse)
 ! alt+u Enter selection mode
@@ -95,13 +95,15 @@ URxvt.url-select.launcher: /usr/bin/xdg-open
 URxvt.url-select.underline: ture
 ! Resize font by keyboard on fly
 ! install urxvt-resize-font-git from the AUR
-URxvt.resize-font.smaller: C-minus
-URxvt.resize-font.bigger: C-equal
+! URxvt.resize-font.smaller: C-minus
+! URxvt.resize-font.bigger: C-equal
 
 ! Clipboard 
 URxvt.iso14755: False
 URxvt.keysym.Shift-Control-C: perl:clipboard:copy
 URxvt.keysym.Shift-Control-V: perl:clipboard:paste
+URxvt.clipboard.copycmd:  xclip -i -selection clipboard
+URxvt.clipboard.pastecmd: xclip -o -selection clipboard
 
 ! Keyboard-selection
 ! h/j/k/l:    Move cursor left/down/up/right (also with arrow keys)
