@@ -30,6 +30,7 @@ Plugin 'godlygeek/tabular'
 Plugin 'JamshedVesuna/vim-markdown-preview'
 Plugin 'pangloss/vim-javascript'
 Plugin 'mattn/emmet-vim'
+Plugin 'klen/python-mode'
 "
 " for git
 Plugin 'tpope/vim-fugitive', {'name': 'fugitive'}

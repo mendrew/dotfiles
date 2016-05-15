@@ -1,7 +1,7 @@
 # ~/.tmuxinator/quest.yml
 
 name: quest
-root: ~/QuestSpace/Lavcraft/questroom-lovecraft
+root: ~/quests/lovecraft/questroom-lovecraft
 
 
 # Optional tmux socket
@@ -42,5 +42,5 @@ windows:
         - cd tests; tmux send "python2.7 pass_quest.py"
   - console:
       panes:
-        - firefox --new-window &; firefox --url dashboard.html index.html http://localhost:8888/?id=1 http://localhost:8888/?id=2 http://localhost:8888/dashboard
+        - tmux send "firefox --new-window &; firefox --url dashboard.html index.html http://localhost:8888/?id=1 http://localhost:8888/?id=2 http://localhost:8888/dashboard"
         - cd ../docs; open_command lovecraft_story.pdf &; open_command device_and_puzzles_description.pdf &; open_command items_plan.pdf;

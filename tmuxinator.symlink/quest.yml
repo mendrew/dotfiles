@@ -1,7 +1,7 @@
 # ~/.tmuxinator/quest.yml
 
 name: quest
-root: ~/QuestSpace/questroom-head
+root: ~/quests/questroom-head
 
 # Optional tmux socket
 # socket_name: foo
