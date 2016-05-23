@@ -1,5 +1,7 @@
 # Path to your oh-my-zsh installation.
   export ZSH=/home/$USER/.oh-my-zsh
+  # for mac os
+  export ZSH=$(ZSH);/Users/$USER/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -89,3 +91,6 @@ fi
 alias zshconfig="vim ~/.zshrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
 alias mux=tmuxinator
+
+export NVM_DIR="/Users/mendrew/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm

@@ -31,6 +31,10 @@ Plugin 'JamshedVesuna/vim-markdown-preview'
 Plugin 'pangloss/vim-javascript'
 Plugin 'mattn/emmet-vim'
 Plugin 'klen/python-mode'
+Plugin 'nono/vim-handlebars'
+" Plugin 'skammer/vim-css-color'
+Plugin 'cakebaker/scss-syntax.vim'
+Plugin 'gorodinskiy/vim-coloresque'
 "
 " for git
 Plugin 'tpope/vim-fugitive', {'name': 'fugitive'}
