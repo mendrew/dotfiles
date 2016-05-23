@@ -25,6 +25,9 @@ Plugin 'tomtom/tcomment_vim'
 Plugin 'tpope/vim-unimpaired' " ]q is :cnext.
 Plugin 'tpope/vim-repeat'
 Plugin 'godlygeek/tabular'
+Plugin 'ternjs/tern_for_vim'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'moll/vim-node'
 
 " language specific
 Plugin 'JamshedVesuna/vim-markdown-preview'
