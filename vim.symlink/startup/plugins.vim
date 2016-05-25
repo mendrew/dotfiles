@@ -32,6 +32,7 @@ Plugin 'moll/vim-node'
 " language specific
 Plugin 'JamshedVesuna/vim-markdown-preview'
 Plugin 'pangloss/vim-javascript'
+Plugin 'gavocanov/vim-js-indent'
 Plugin 'mattn/emmet-vim'
 Plugin 'klen/python-mode'
 Plugin 'nono/vim-handlebars'
