@@ -32,11 +32,15 @@ windows:
       layout: main-vertical
       panes:
         - cd soshace-landing-keystone;vim .
-        -
-  - server:
+  - node-servers:
       layout: 3951,236x59,0,0[236x24,0,0,1,236x34,0,25{117x34,0,25[117x17,0,25,3,117x16,0,43,5],118x34,118,25,4}]
       panes:
         - cd proxy-landing; npm start
         - cd soshace-landing-keystone; sleep 2; npm start
         - cd soshace-ru; sleep 2; npm start
         - mongod
+  - server:
+      layout: main-vertical
+      panes:
+        - ssh landing_test;
+        - ssh landing_server;
