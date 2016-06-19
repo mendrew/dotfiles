@@ -15,6 +15,9 @@ if &diff
     set wrap
 endif
 
+" for change buffers even if they have changes
+set hidden
+
 " Tab and space settings
 set tabstop=4
 set softtabstop=4
@@ -41,7 +44,7 @@ if has("autocmd")
 
   " Customisations based on house-style (arbitrary)
   autocmd FileType html setlocal ts=2 sts=2 sw=2 expandtab
-  autocmd FileType css setlocal ts=2 sts=2 sw=2 expandtab
+  autocmd FileType css, scss setlocal ts=2 sts=2 sw=2 expandtab
   autocmd FileType javascript setlocal ts=2 sts=2 sw=2 expandtab
   " Treat .rss files as XML
   autocmd BufNewFile,BufRead *.rss setfiletype xml

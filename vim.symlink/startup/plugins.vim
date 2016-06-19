@@ -25,18 +25,23 @@ Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-unimpaired' " ]q is :cnext.
 Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-surround'
 Plugin 'godlygeek/tabular'
 Plugin 'ternjs/tern_for_vim'
-Plugin 'Valloric/YouCompleteMe'
+" Plugin 'Valloric/YouCompleteMe'
 Plugin 'easymotion/vim-easymotion'
 packadd! matchit
+" support tags
+Plugin 'majutsushi/tagbar'
+Plugin 'xolox/vim-easytags'
+Plugin 'xolox/vim-misc'
 
 " language specific
 Plugin 'JamshedVesuna/vim-markdown-preview'
 Plugin 'pangloss/vim-javascript'
 Plugin 'gavocanov/vim-js-indent'
 Plugin 'mattn/emmet-vim'
-Plugin 'klen/python-mode'
+" Plugin 'klen/python-mode'
 Plugin 'nono/vim-handlebars'
 " Plugin 'skammer/vim-css-color'
 Plugin 'cakebaker/scss-syntax.vim'
