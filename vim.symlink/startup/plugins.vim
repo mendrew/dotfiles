@@ -21,13 +21,15 @@ Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'rking/ag.vim'
 " Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
-Plugin 'tomtom/tcomment_vim'
+" Plugin 'tomtom/tcomment_vim'
+Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-unimpaired' " ]q is :cnext.
 Plugin 'tpope/vim-repeat'
 Plugin 'godlygeek/tabular'
 Plugin 'ternjs/tern_for_vim'
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'moll/vim-node'
+Plugin 'easymotion/vim-easymotion'
+packadd! matchit
 
 " language specific
 Plugin 'JamshedVesuna/vim-markdown-preview'
@@ -39,6 +41,7 @@ Plugin 'nono/vim-handlebars'
 " Plugin 'skammer/vim-css-color'
 Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'gorodinskiy/vim-coloresque'
+Plugin 'moll/vim-node'
 "
 " for git
 Plugin 'tpope/vim-fugitive', {'name': 'fugitive'}
