@@ -44,6 +44,7 @@ if has("autocmd")
 
   " Customisations based on house-style (arbitrary)
   autocmd FileType html setlocal ts=2 sts=2 sw=2 expandtab
+  autocmd FileType html.handlebars setlocal ts=2 sts=2 sw=2 expandtab
   autocmd FileType css, scss setlocal ts=2 sts=2 sw=2 expandtab
   autocmd FileType javascript setlocal ts=2 sts=2 sw=2 expandtab
   " Treat .rss files as XML
@@ -55,3 +56,13 @@ set keymap=russian-jcukenwin
 set iminsert=0
 set imsearch=0
 highlight lCursor guifg=NONE guibg=Cyan
+
+" for swap files
+" set backup
+" set backupdir=~/.vim/backup//
+" set directory=~/.vim/swap//
+" set undodir=~/.vim/undo//
+" set writebackup
+set nobackup
+set nowritebackup
+set noswapfile
