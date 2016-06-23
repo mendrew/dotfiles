@@ -35,6 +35,10 @@ packadd! matchit
 Plugin 'majutsushi/tagbar'
 Plugin 'xolox/vim-easytags'
 Plugin 'xolox/vim-misc'
+" snippets support
+Plugin 'Shougo/neocomplete'
+Plugin 'Shougo/neosnippet'
+Plugin 'Shougo/neosnippet-snippets'
 
 " language specific
 Plugin 'JamshedVesuna/vim-markdown-preview'
