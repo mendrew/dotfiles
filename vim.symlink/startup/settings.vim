@@ -3,8 +3,16 @@ set number
 set relativenumber
 set cursorline
 
+
+" Search options
+set gdefault                " Add the g flag to search/replace by default
+set hlsearch                " Highlight search results
+set ignorecase              " Ignore case in search patterns
+set smartcase               " Override the 'ignorecase' option if the search pattern contains upper case characters
 " While typing a search command, show where the pattern, as it was typed so far, matches. The matched string is highlighted. If the pattern
-set incsearch
+set incsearch               " While typing a search command, show where the pattern
+nnoremap <silent> <cr> :nohlsearch<cr><cr>
+
 set synmaxcol=0
 set cmdheight=2
 set nowrap
@@ -45,7 +53,8 @@ if has("autocmd")
   " Customisations based on house-style (arbitrary)
   autocmd FileType html setlocal ts=2 sts=2 sw=2 expandtab
   autocmd FileType html.handlebars setlocal ts=2 sts=2 sw=2 expandtab
-  autocmd FileType css, scss setlocal ts=2 sts=2 sw=2 expandtab
+  autocmd FileType css setlocal ts=2 sts=2 sw=2 expandtab
+  autocmd FileType scss setlocal ts=2 sts=2 sw=2 expandtab
   autocmd FileType javascript setlocal ts=2 sts=2 sw=2 expandtab
   " Treat .rss files as XML
   autocmd BufNewFile,BufRead *.rss setfiletype xml
