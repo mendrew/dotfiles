@@ -30,7 +30,7 @@ Plugin 'godlygeek/tabular'
 Plugin 'ternjs/tern_for_vim'
 " Plugin 'Valloric/YouCompleteMe'
 Plugin 'easymotion/vim-easymotion'
-packadd! matchit
+Plugin 'matchit.zip'
 " support tags
 Plugin 'majutsushi/tagbar'
 Plugin 'xolox/vim-easytags'
