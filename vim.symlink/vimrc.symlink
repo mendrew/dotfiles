@@ -5,6 +5,10 @@ source ~/.vim/startup/plugins.vim
 " Specific plugins settings in:
 " ~/.vim/after/plugin/
 
+" Snippets
+" ~/.vim/bundle/neosnippet-snippets/neosnippets/
+" ~/.vim/bundle/vim-snippets/snippets/
+
 "============== Filetype stuff ============
 filetype plugin on
 filetype indent on

@@ -39,6 +39,7 @@ Plugin 'xolox/vim-misc'
 Plugin 'Shougo/neocomplete'
 Plugin 'Shougo/neosnippet'
 Plugin 'Shougo/neosnippet-snippets'
+Plugin 'honza/vim-snippets'
 
 " language specific
 Plugin 'JamshedVesuna/vim-markdown-preview'
