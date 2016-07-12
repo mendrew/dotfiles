@@ -1,0 +1,25 @@
+# Functions
+
+# Anonymous Function
+snippet f
+	function(${1}) {
+		${0}
+	}
+
+# if in one line
+snippet ifo
+	if (${1:true}) ${0};
+
+# if in one line with return
+snippet ifr
+	if (${1:true}) return ${0};
+
+# console.log with strings
+snippet cls
+	console.log("${0}");
+# console.debug
+
+# require with save name and module
+snippet res
+	${1:var} $2 = require('${2:module_name}');
+    ${0}

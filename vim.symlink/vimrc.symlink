@@ -8,6 +8,7 @@ source ~/.vim/startup/plugins.vim
 " Snippets
 " ~/.vim/bundle/neosnippet-snippets/neosnippets/
 " ~/.vim/bundle/vim-snippets/snippets/
+" ~/.vim/snippets/
 
 "============== Filetype stuff ============
 filetype plugin on
