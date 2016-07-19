@@ -26,6 +26,7 @@ Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-unimpaired' " ]q is :cnext.
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
+Plugin 'wellle/targets.vim'
 Plugin 'godlygeek/tabular'
 Plugin 'ternjs/tern_for_vim'
 " Plugin 'Valloric/YouCompleteMe'
