@@ -28,8 +28,10 @@ nmap { {zz
 " Delete/Insert inside comma
 nmap di, f,dT,
 nmap ci, f,cT,
-nmap da, f,ld2F,i,<ESC>l "delete argument
-nmap ca, f,ld2F,i,<ESC>a "delete arg and insert
+"delete argument
+nmap da, f,ld2F,i,<ESC>l
+"delete arg and insert
+nmap ca, f,ld2F,i,<ESC>a
 
 " Regexp default to very magic
 no / /\v
