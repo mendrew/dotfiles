@@ -1,7 +1,7 @@
 # ~/.tmuxinator/admin.yml
 
 name: admin
-root: ~/src/lern/simple_admin
+root: ~/src/lern/simple-admin
 
 # Optional tmux socket
 # socket_name: foo
