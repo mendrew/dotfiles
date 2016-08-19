@@ -15,7 +15,14 @@ nnoremap <silent> <cr> :nohlsearch<cr><cr>
 
 set synmaxcol=0
 set cmdheight=2
-set nowrap
+" set nowrap
+" try to wrap too long line like optimization line
+set wrap
+set linebreak
+set nolist
+set textwidth=0
+set wrapmargin=0
+
 set nowritebackup
 
 " For diff mode
