@@ -45,6 +45,7 @@ Plugin 'honza/vim-snippets'
 " language specific
 Plugin 'JamshedVesuna/vim-markdown-preview'
 Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx'
 Plugin 'gavocanov/vim-js-indent'
 Plugin 'mattn/emmet-vim'
 " Plugin 'klen/python-mode'
