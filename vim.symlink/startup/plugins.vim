@@ -33,9 +33,9 @@ Plugin 'ternjs/tern_for_vim'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'matchit.zip'
 " support tags
-Plugin 'majutsushi/tagbar'
-Plugin 'xolox/vim-easytags'
-Plugin 'xolox/vim-misc'
+" Plugin 'majutsushi/tagbar'
+" Plugin 'xolox/vim-easytags'
+" Plugin 'xolox/vim-misc'
 " snippets support
 Plugin 'Shougo/neocomplete'
 Plugin 'Shougo/neosnippet'
