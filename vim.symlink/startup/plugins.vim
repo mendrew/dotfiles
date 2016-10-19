@@ -48,7 +48,7 @@ Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
 Plugin 'gavocanov/vim-js-indent'
 Plugin 'mattn/emmet-vim'
-" Plugin 'klen/python-mode'
+Plugin 'klen/python-mode'
 " Plugin 'nono/vim-handlebars' " deprecated
 Plugin 'mustache/vim-mustache-handlebars'
 " Plugin 'skammer/vim-css-color'
