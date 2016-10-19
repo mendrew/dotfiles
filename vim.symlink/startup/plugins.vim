@@ -17,6 +17,7 @@ Plugin 'VundleVim/Vundle.vim'
 " plugin on GitHub repo
 
 Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'wincent/ferret'
 Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'rking/ag.vim'
 " Plugin 'scrooloose/nerdtree'
