@@ -8,3 +8,5 @@ let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 
+let g:syntastic_javascript_checkers = ['eslint']
+
