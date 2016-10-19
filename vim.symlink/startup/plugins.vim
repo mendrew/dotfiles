@@ -44,9 +44,9 @@ Plugin 'Shougo/neosnippet-snippets'
 Plugin 'honza/vim-snippets'
 
 " language specific
-Plugin 'JamshedVesuna/vim-markdown-preview'
+" Plugin 'JamshedVesuna/vim-markdown-preview'
 Plugin 'pangloss/vim-javascript'
-Plugin 'mxw/vim-jsx'
+" Plugin 'mxw/vim-jsx'
 Plugin 'gavocanov/vim-js-indent'
 Plugin 'mattn/emmet-vim'
 Plugin 'klen/python-mode'
@@ -60,7 +60,7 @@ Plugin 'moll/vim-node'
 " for git
 Plugin 'tpope/vim-fugitive', {'name': 'fugitive'}
 " for mercurial
-Plugin 'ludovicchabant/vim-lawrencium'
+" Plugin 'ludovicchabant/vim-lawrencium'
 
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
