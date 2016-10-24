@@ -36,7 +36,7 @@ windows:
   - server:
       layout: main-vertical
       panes:
-        - source ../bin/activate; cd src/django-app; DEBUG=True python manage.py runserver 9000;
+        - source ../bin/activate && cd src/django-app && DEBUG=True python manage.py runserver 9000
         - cd src/react-client; gulp
   - database:
       layout: main-vertical
