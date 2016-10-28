@@ -51,3 +51,9 @@ vno <down> <Nop>
 vno <left> <Nop>
 vno <right> <Nop>
 vno <up> <Nop>
+
+" " Break habbit
+" noremap h <NOP>
+" noremap j <NOP>
+" noremap k <NOP>
+" noremap l <NOP>
