@@ -1,0 +1,1638 @@
+(function() {
+  var ALL_KEYS, AXES, AXIS, ChainWindow, DIR, DIRS, EAST, EventEmitter, HORIZONTAL, HintMode, HintTree, InputMode, Mode, ModeManager, NORTH, SHIFT_KEYS, SOUTH, Toaster, VERTICAL, WEST, axisOf, c, catchable, coeff, cw, deltaIn, dirsOf, edgeOf, evalInput, gapify, i, identify, intersects, isCloser, modes, oppositeOf, p, scrHint, shellInput, winHint, within,
+    slice = [].slice,
+    indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; },
+    extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+    hasProp = {}.hasOwnProperty;
+
+  NORTH = 'north';
+
+  SOUTH = 'south';
+
+  EAST = 'east';
+
+  WEST = 'west';
+
+  DIR = 'DIR';
+
+  DIRS = [NORTH, SOUTH, EAST, WEST];
+
+  VERTICAL = 'VERTICAL';
+
+  HORIZONTAL = 'HORIZONTAL';
+
+  AXIS = 'AXIS';
+
+  AXES = [VERTICAL, HORIZONTAL];
+
+  Phoenix.set({
+    openAtLogin: true
+  });
+
+  p = {
+    wins: {
+      tolerance: 10,
+      unit: 100,
+      factor: 2,
+      gap: 20
+    },
+    modals: {
+      unit: 10,
+      gap: 10,
+      duration: 1,
+      weight: 24,
+      appearance: 'dark'
+    },
+    hints: {
+      stopEvents: ['screensDidChange', 'spaceDidChange', 'mouseDidLeftClick', 'mouseDidRightClick', 'appDidActivate', 'appDidHide', 'appDidShow', 'windowDidFocus', 'windowDidMove', 'windowDidMinimize', 'windowDidUnminimize'],
+      kStop: 'escape',
+      kPop: 'delete',
+      chars: 'FJDKSLAGHRUEIWOVNCM',
+      titleLength: 15,
+      titleCont: '…',
+      debounce: 150
+    },
+    input: {
+      stopEvents: ['screensDidChange', 'spaceDidChange', 'mouseDidLeftClick', 'mouseDidRightClick'],
+      cursor: 'ˌ'
+    },
+    "eval": {
+      prompt: '> ',
+      instantPrefix: '@',
+      progressStr: '…'
+    },
+    shell: {
+      prompt: '$ ',
+      bin: '/usr/local/bin/bash',
+      rc: '~/.bashrc'
+    },
+    keys: {
+      maximize: 'm',
+      center: 'c',
+      reFill: 'u',
+      spaceAll: 's',
+      winHintMode: 'y',
+      scrHintMode: 's',
+      evalInputMode: '\\',
+      shellInputMode: 'return',
+      status: 'i',
+      snaps: {
+        q: [-1 / 2, -1 / 2],
+        a: [-1 / 2, -1],
+        z: [-1 / 2, 1 / 2],
+        ']': [1 / 2, -1 / 2],
+        '\'': [1 / 2, -1],
+        '/': [1 / 2, 1 / 2]
+      },
+      apps: {
+        t: 'iTerm2',
+        e: 'Finder'
+      },
+      mods: {
+        // base: ['cmd', 'alt'],
+        // move: ['cmd', 'alt', 'shift'],
+        base: ['alt'],
+        move: ['alt', 'shift'],
+        size: ['ctrl', 'shift'],
+        pour: ['cmd', 'alt', 'ctrl'],
+        tile: ['cmd', 'ctrl', 'shift']
+      },
+      dirs: {
+        h: WEST,
+        j: SOUTH,
+        k: NORTH,
+        l: EAST
+      },
+      offsets: {
+        n: 1,
+        p: -1
+      }
+    }
+  };
+
+  Object.prototype.map = function(f) {
+    return Object.keys(this).reduce(((function(_this) {
+      return function(o, k) {
+        o[k] = f(_this[k], k);
+        return o;
+      };
+    })(this)), {});
+  };
+
+  Array.prototype.extend = function(a) {
+    return this.push.apply(this, a);
+  };
+
+  Array.prototype.contains = function(x) {
+    return -1 < this.indexOf(x);
+  };
+
+  Array.prototype.equals = function(a) {
+    return _.all((_.zip(this, a)).map(function(arg) {
+      var a, b;
+      a = arg[0], b = arg[1];
+      return a === b;
+    }));
+  };
+
+  Array.prototype.subsets = function() {
+    var ref, rest, x, xs;
+    if (!this) {
+      return [this];
+    } else {
+      ref = this, x = ref[0], xs = 2 <= ref.length ? slice.call(ref, 1) : [];
+      rest = xs.subsets();
+      return rest.concat(rest.map((function(_this) {
+        return function(a) {
+          return a.concat(x);
+        };
+      })(this)));
+    }
+  };
+
+  String.prototype.map = Array.prototype.map;
+
+  String.prototype.pop = function() {
+    return this.charAt(this.length - 1);
+  };
+
+  String.prototype.popped = function() {
+    return this.substr(0, this.length - 1);
+  };
+
+  String.prototype.popFront = function() {
+    return this.charAt(0);
+  };
+
+  String.prototype.poppedFront = function() {
+    return this.substr(1);
+  };
+
+  String.prototype.insert = function(s, i) {
+    return (this.substr(0, i)) + s + this.substr(i);
+  };
+
+  String.prototype.remove = function(i) {
+    return (this.substr(0, i)) + this.substr(i + 1);
+  };
+
+  EventEmitter = (function() {
+    function EventEmitter() {
+      this.cbs = {};
+    }
+
+    EventEmitter.prototype.on = function(e, f) {
+      if (this.cbs[e] == null) {
+        this.cbs[e] = [];
+      }
+      return this.cbs[e].push(f);
+    };
+
+    EventEmitter.prototype.off = function(e, f) {
+      var ref;
+      return this.cbs[e] = _.without((ref = this.cbs[e]) != null ? ref : [], f);
+    };
+
+    EventEmitter.prototype.emit = function() {
+      var args, e, ref;
+      e = arguments[0], args = 2 <= arguments.length ? slice.call(arguments, 1) : [];
+      return (ref = this.cbs[e]) != null ? ref.map(function(f) {
+        return f.apply(null, args);
+      }) : void 0;
+    };
+
+    return EventEmitter;
+
+  })();
+
+  ALL_KEYS = ((function() {
+    var j, l, len1, ref, results, results1;
+    ref = [39].concat([44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57]).concat(59).concat(61).concat((function() {
+      results1 = [];
+      for (l = 65; l <= 93; l++){ results1.push(l); }
+      return results1;
+    }).apply(this)).concat(96);
+    results = [];
+    for (j = 0, len1 = ref.length; j < len1; j++) {
+      c = ref[j];
+      results.push(String.fromCharCode(c));
+    }
+    return results;
+  })()).concat((function() {
+    var j, results;
+    results = [];
+    for (i = j = 1; j <= 19; i = ++j) {
+      results.push('f' + i);
+    }
+    return results;
+  })()).concat((function() {
+    var j, len1, ref, results;
+    ref = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].concat(['Clear', 'Enter']).concat('.*+/-='.split(''));
+    results = [];
+    for (j = 0, len1 = ref.length; j < len1; j++) {
+      i = ref[j];
+      results.push('keypad' + i);
+    }
+    return results;
+  })()).concat(['return', 'tab', 'space', 'delete', 'escape', 'help', 'home', 'pageUp', 'forwardDelete', 'end', 'pageDown', 'left', 'right', 'down', 'up']);
+
+  SHIFT_KEYS = _.extend({
+    '`': '~',
+    '1': '!',
+    '2': '@',
+    '3': '#',
+    '4': '$',
+    '5': '%',
+    '6': '^',
+    '7': '&',
+    '8': '*',
+    '9': '(',
+    '0': ')',
+    '-': '_',
+    '=': '+',
+    '[': '{',
+    ']': '}',
+    '\\': '|',
+    ';': ':',
+    '\'': '"',
+    ',': '<',
+    '.': '>',
+    '/': '?'
+  }, _.object((function() {
+    var j, results;
+    results = [];
+    for (c = j = 97; j <= 122; c = ++j) {
+      results.push(String.fromCharCode(c));
+    }
+    return results;
+  })(), (function() {
+    var j, results;
+    results = [];
+    for (c = j = 65; j <= 90; c = ++j) {
+      results.push(String.fromCharCode(c));
+    }
+    return results;
+  })()));
+
+  identify = function(x) {
+    if (indexOf.call(DIRS, x) >= 0) {
+      return DIR;
+    } else if (indexOf.call(AXES, x) >= 0) {
+      return AXIS;
+    } else {
+      return void 0;
+    }
+  };
+
+  oppositeOf = function(dirOrAxis) {
+    switch (dirOrAxis) {
+      case NORTH:
+        return SOUTH;
+      case SOUTH:
+        return NORTH;
+      case EAST:
+        return WEST;
+      case WEST:
+        return EAST;
+      case VERTICAL:
+        return HORIZONTAL;
+      case HORIZONTAL:
+        return VERTICAL;
+    }
+  };
+
+  axisOf = function(dirOrAxis) {
+    switch (dirOrAxis) {
+      case NORTH:
+      case SOUTH:
+      case VERTICAL:
+        return VERTICAL;
+      case EAST:
+      case WEST:
+      case HORIZONTAL:
+        return HORIZONTAL;
+    }
+  };
+
+  dirsOf = function(axis) {
+    switch (axis) {
+      case VERTICAL:
+        return [NORTH, SOUTH];
+      case HORIZONTAL:
+        return [EAST, WEST];
+    }
+  };
+
+  coeff = function(dir) {
+    switch (dir) {
+      case NORTH:
+      case WEST:
+        return -1;
+      case SOUTH:
+      case EAST:
+        return 1;
+      case VERTICAL:
+      case HORIZONTAL:
+        return 0;
+    }
+  };
+
+  isCloser = function(dir, a, b) {
+    c = coeff(dir);
+    return a * c < b * c;
+  };
+
+  deltaIn = function(dir, unit) {
+    if (unit == null) {
+      unit = 1;
+    }
+    c = coeff(dir);
+    switch (axisOf(dir)) {
+      case VERTICAL:
+        return [0, unit * c];
+      case HORIZONTAL:
+        return [unit * c, 0];
+    }
+  };
+
+  catchable = function(f, dir, g) {
+    switch (axisOf(dir)) {
+      case VERTICAL:
+        return f.x < g.x + g.width && f.x + f.width > g.x;
+      case HORIZONTAL:
+        return f.y < g.y + g.height && f.y + f.height > g.y;
+    }
+  };
+
+  edgeOf = function(f, dir, gap) {
+    if (gap == null) {
+      gap = 0;
+    }
+    switch (dir) {
+      case SOUTH:
+        return f.y + f.height + gap;
+      case NORTH:
+        return f.y - gap;
+      case EAST:
+        return f.x + f.width + gap;
+      case WEST:
+        return f.x - gap;
+    }
+  };
+
+  within = function(f, p) {
+    var ref, ref1;
+    return (f.x <= (ref = p.x) && ref <= f.x + f.width) && (f.y <= (ref1 = p.y) && ref1 <= f.y + f.height);
+  };
+
+  intersects = function(f, g, gap) {
+    if (gap == null) {
+      gap = 0;
+    }
+    return f.x <= g.x + g.width + gap && g.x <= f.x + f.width + gap && f.y <= g.y + g.height + gap && g.y <= f.y + f.height + gap;
+  };
+
+  gapify = function(f, gap) {
+    f.x += gap;
+    f.y += gap;
+    f.width -= gap * 2;
+    return f.height -= gap * 2;
+  };
+
+  Screen.prototype.idx = function() {
+    return _.findIndex(Screen.all(), (function(_this) {
+      return function(s) {
+        return _this.isEqual(s);
+      };
+    })(this));
+  };
+
+  Screen.prototype.hint = function(seq) {
+    var hint, sf;
+    sf = this.frame();
+    hint = Modal.build({
+      text: seq,
+      origin: function(mf) {
+        return {
+          x: sf.x + sf.width / 2 - mf.width / 2,
+          y: sf.y + sf.height / 2 - mf.height / 2
+        };
+      }
+    });
+    hint.seq = seq;
+    hint.curSeqLen = seq.length;
+    return hint;
+  };
+
+  Screen.prototype.mouseTo = function() {
+    var f;
+    f = this.flippedFrame();
+    return Mouse.move({
+      x: f.x + f.width / 2,
+      y: f.y + f.height / 2
+    });
+  };
+
+  Screen.moused = function() {
+    return _.find(Screen.all(), function(s) {
+      return within(s.flippedFrame(), Mouse.location());
+    });
+  };
+
+  Space.prototype.idx = function() {
+    return _.findIndex(Space.all(), (function(_this) {
+      return function(s) {
+        return _this.isEqual(s);
+      };
+    })(this));
+  };
+
+  Window.prototype.hint = function(seq) {
+    var f, hint, sf, text, title, titleCont, titleLength;
+    titleLength = p.hints.titleLength;
+    titleCont = p.hints.titleCont;
+    f = this.frame();
+    sf = this.screen().frame();
+    text = seq;
+    if (this.app().windows({
+      visible: true
+    }).length > 1) {
+      title = this.title();
+      if (title.length > titleLength) {
+        title = (title.substr(0, titleLength - titleCont.length)) + titleCont;
+      }
+      text += ' | ' + title;
+    }
+    hint = Modal.build({
+      text: text,
+      icon: this.app().icon(),
+      origin: function(mf) {
+        return {
+          x: Math.min(Math.max(f.x + f.width / 2 - mf.width / 2, sf.x), sf.x + sf.width - mf.width),
+          y: Math.min(Math.max(Screen.all()[0].frame().height - (f.y + f.height / 2 + mf.height / 2), sf.y), sf.y + sf.height - mf.height)
+        };
+      }
+    });
+    hint.seq = seq;
+    hint.curSeqLen = seq.length;
+    return hint;
+  };
+
+  Modal.prototype.open = [];
+
+  Modal._build = Modal.build;
+
+  Modal.build = function(props) {
+    if (props == null) {
+      props = {};
+    }
+    return Modal._build(_.extend(props, {
+      weight: p.modals.weight,
+      appearance: p.modals.appearance
+    }));
+  };
+
+  Modal.prototype._show = Modal.prototype.show;
+
+  Modal.prototype.show = function() {
+    Modal.prototype.open = _.without(this.open, this);
+    while (_.some(this.open.map((function(_this) {
+        return function(m) {
+          return intersects(_this.frame(), m.frame(), p.modals.gap);
+        };
+      })(this)))) {
+      this.origin = {
+        x: this.origin.x,
+        y: this.origin.y - p.modals.unit
+      };
+    }
+    this.open.push(this);
+    this._show();
+    return this;
+  };
+
+  Modal.prototype._close = Modal.prototype.close;
+
+  Modal.prototype.close = function() {
+    if (this.mt != null) {
+      Timer.off(this.mt);
+    }
+    Modal.prototype.open = _.without(this.open, this);
+    this._close();
+    return this;
+  };
+
+  Modal.prototype.setText = function(text1) {
+    this.text = text1;
+    return this;
+  };
+
+  Modal.prototype.center = function() {
+    var mf, sf;
+    mf = this.frame();
+    sf = Screen.moused().frame();
+    this.origin = {
+      x: sf.x + sf.width / 2 - mf.width / 2,
+      y: sf.y + sf.height / 2 - mf.height / 2
+    };
+    return this;
+  };
+
+  Modal.prototype.closeAfter = function(s) {
+    if (s == null) {
+      s = p.modals.duration;
+    }
+    if (this.mt != null) {
+      Timer.off(this.mt);
+    }
+    this.mt = Timer.after(s, (function(_this) {
+      return function() {
+        return _this.close();
+      };
+    })(this));
+    return this;
+  };
+
+  Modal.prototype.updateSeqLen = function(len) {
+    var next;
+    if (this.seq == null) {
+      return;
+    }
+    next = this.seq.substr(len);
+    this.text = next + this.text.substr(this.curSeqLen);
+    this.curSeqLen = next.length;
+    return this;
+  };
+
+  Toaster = (function() {
+    function Toaster(modal) {
+      this.modal = modal != null ? modal : Modal.build();
+    }
+
+    Toaster.instance = new Toaster();
+
+    Toaster.prototype.toast = function(text) {
+      return this.modal.setText(text).center().show().closeAfter();
+    };
+
+    Toaster.toast = function() {
+      var args, ref;
+      args = 1 <= arguments.length ? slice.call(arguments, 0) : [];
+      return (ref = this.instance).toast.apply(ref, args);
+    };
+
+    Toaster.prototype.close = function() {
+      return this.modal.close();
+    };
+
+    Toaster.close = function() {
+      var args, ref;
+      args = 1 <= arguments.length ? slice.call(arguments, 0) : [];
+      return (ref = this.instance).close.apply(ref, args);
+    };
+
+    return Toaster;
+
+  })();
+
+  Mode = (function(superClass) {
+    extend(Mode, superClass);
+
+    function Mode(stopEvents) {
+      this.stopEvents = stopEvents != null ? stopEvents : [];
+      Mode.__super__.constructor.apply(this, arguments);
+      this.active = false;
+      this.binds = [];
+    }
+
+    Mode.prototype.start = function() {
+      if (this.active) {
+        return;
+      }
+      this.active = true;
+      this.binds = _.flatten(ALL_KEYS.map((function(_this) {
+        return function(k) {
+          return [[], ['shift'], ['ctrl']].map(function(mod) {
+            return Key.on(k, mod, function() {
+              return _this.emit('key', k, _.first(mod));
+            });
+          });
+        };
+      })(this)));
+      this.events = this.stopEvents.map((function(_this) {
+        return function(e) {
+          return Event.on(e, function() {
+            return _this.stop();
+          });
+        };
+      })(this));
+      this.emit('prestart');
+      return this.emit('start');
+    };
+
+    Mode.prototype.stop = function() {
+      var ref, ref1;
+      if (!this.active) {
+        return;
+      }
+      this.active = false;
+      if ((ref = this.binds) != null) {
+        ref.map(Key.off);
+      }
+      if ((ref1 = this.events) != null) {
+        ref1.map(Event.off);
+      }
+      this.emit('prestop');
+      return this.emit('stop');
+    };
+
+    return Mode;
+
+  })(EventEmitter);
+
+  ModeManager = (function() {
+    function ModeManager() {
+      this.cid = 0;
+      this.modes = {};
+      this.cur = void 0;
+    }
+
+    ModeManager.prototype.add = function(mode) {
+      var id;
+      id = this.cid++;
+      this.modes[id] = mode;
+      mode.on('prestart', (function(_this) {
+        return function() {
+          _this.cur = id;
+          return _this.modes.map((function(m, n) {
+            if (+n !== id) {
+              return m.stop();
+            }
+          }));
+        };
+      })(this));
+      mode.on('prestop', (function(_this) {
+        return function() {
+          if (_this.cur === id) {
+            return delete _this.cur;
+          }
+        };
+      })(this));
+      return id;
+    };
+
+    ModeManager.prototype.remove = function(id) {
+      var ref;
+      if ((ref = this.modes[id]) != null) {
+        ref.stop();
+      }
+      return delete this.modes[id];
+    };
+
+    ModeManager.prototype.start = function(id) {
+      var ref;
+      return (ref = this.modes[id]) != null ? ref.start() : void 0;
+    };
+
+    ModeManager.prototype.stop = function() {
+      var ref;
+      return (ref = this.modes[this.cur]) != null ? ref.stop() : void 0;
+    };
+
+    ModeManager.prototype.toggle = function(id) {
+      if (this.cur === id) {
+        return this.stop();
+      } else {
+        return this.start(id);
+      }
+    };
+
+    return ModeManager;
+
+  })();
+
+  HintTree = (function() {
+    function HintTree(chars, objs, parent, prefix) {
+      this.chars = chars;
+      this.parent = parent;
+      this.prefix = prefix != null ? prefix : '';
+      this.tree = (_.groupBy(objs, (function(_this) {
+        return function(e, i) {
+          return _this.chars.charAt(i % _this.chars.length);
+        };
+      })(this))).map((function(_this) {
+        return function(os, k) {
+          var o, seq;
+          seq = _this.prefix + k;
+          if (os.length === 1) {
+            o = os[0];
+            return {
+              obj: o,
+              hint: o.hint(seq)
+            };
+          } else {
+            return new HintTree(_this.chars, os, _this, seq);
+          }
+        };
+      })(this));
+    }
+
+    HintTree.prototype.get = function(k) {
+      return this.tree[k];
+    };
+
+    HintTree.prototype.map = function(f, exclude) {
+      return this.tree.map(function(v, k) {
+        if (v === exclude) {
+          return v;
+        } else if (!(v instanceof HintTree)) {
+          return f(v);
+        } else {
+          return v.map(f, exclude);
+        }
+      });
+    };
+
+    return HintTree;
+
+  })();
+
+  HintMode = (function(superClass) {
+    extend(HintMode, superClass);
+
+    function HintMode(hintableGetter, action1, chars, stopEvents, kStop, kPop, debounce) {
+      this.hintableGetter = hintableGetter;
+      this.action = action1;
+      this.chars = chars != null ? chars : p.hints.chars;
+      this.stopEvents = stopEvents != null ? stopEvents : p.hints.stopEvents;
+      this.kStop = kStop != null ? kStop : p.hints.kStop;
+      this.kPop = kPop != null ? kPop : p.hints.kPop;
+      if (debounce == null) {
+        debounce = p.hints.debounce;
+      }
+      HintMode.__super__.constructor.call(this, this.stopEvents);
+      this.bouncedHints = _.debounce(this.showHints, debounce);
+      this.on('start', (function(_this) {
+        return function() {
+          var hintables;
+          hintables = _this.hintableGetter();
+          if (!hintables.length) {
+            Toaster.toast('Nothing to hint.');
+            _this.stop();
+            return;
+          }
+          _this.state = new HintTree(_this.chars, hintables);
+          _this.len = 0;
+          return _this.showHints(_this.state);
+        };
+      })(this));
+      this.on('stop', (function(_this) {
+        return function() {
+          var ref;
+          if (_this.stopTimer != null) {
+            Timer.off(_this.stopTimer);
+          }
+          _this.bouncedHints();
+          if ((ref = (_this.state instanceof HintTree ? _this.state : _this.prev)) != null) {
+            ref.map(function(o) {
+              return o.hint.close();
+            });
+          }
+          delete _this.state;
+          return delete _this.len;
+        };
+      })(this));
+      this.on('key', (function(_this) {
+        return function(k, mod1) {
+          _this.mod = mod1;
+          switch (k) {
+            case _this.kStop:
+              return _this.stop();
+            case _this.kPop:
+              return _this.pop();
+            default:
+              return _this.push(k);
+          }
+        };
+      })(this));
+    }
+
+    HintMode.prototype.showHints = function(state) {
+      return state != null ? state.map(function(o) {
+        return o.hint.show();
+      }) : void 0;
+    };
+
+    HintMode.prototype.push = function(k) {
+      var next, ref;
+      next = (ref = this.state) != null ? ref.get(k) : void 0;
+      if (next == null) {
+        return this.stop();
+      } else {
+        this.len++;
+        this.prev = this.state;
+        this.state = next;
+        return this.update(true);
+      }
+    };
+
+    HintMode.prototype.pop = function() {
+      if (!this.len) {
+        return this.stop();
+      } else {
+        this.len--;
+        this.prev = this.state;
+        this.state = this.state.parent;
+        return this.update(false);
+      }
+    };
+
+    HintMode.prototype.update = function(descending) {
+      var obj;
+      if (!(this.state instanceof HintTree)) {
+        obj = this.state.obj;
+        this.stop();
+        return this.action(obj, this.mod);
+      } else {
+        this.state.map((function(_this) {
+          return function(o) {
+            return o.hint.updateSeqLen(_this.len);
+          };
+        })(this));
+        if (descending) {
+          return this.prev.map(function(o) {
+            return o.hint.close();
+          }, this.state);
+        } else {
+          return this.bouncedHints(this.state);
+        }
+      }
+    };
+
+    return HintMode;
+
+  })(Mode);
+
+  InputMode = (function(superClass) {
+    extend(InputMode, superClass);
+
+    function InputMode(prompt, action1, cursor, stopEvents) {
+      this.prompt = prompt;
+      this.action = action1;
+      this.cursor = cursor != null ? cursor : p.input.cursor;
+      this.stopEvents = stopEvents != null ? stopEvents : p.input.stopEvents;
+      InputMode.__super__.constructor.call(this, this.stopEvents);
+      this.history = [];
+      this.on('start', (function(_this) {
+        return function() {
+          _this.input = '';
+          _this.pos = 0;
+          _this.historyPos = -1;
+          _this.inputModal = Modal.build({
+            text: _this.prompt + _this.cursor
+          });
+          _this.inputModal.center().show();
+          _this.output = '';
+          return _this.outputModal = Modal.build({
+            text: _this.output
+          });
+        };
+      })(this));
+      this.on('stop', (function(_this) {
+        return function() {
+          var ref, ref1;
+          if ((ref = _this.inputModal) != null) {
+            ref.close();
+          }
+          return (ref1 = _this.outputModal) != null ? ref1.close() : void 0;
+        };
+      })(this));
+      this.on('key', (function(_this) {
+        return function(k, mod1) {
+          _this.mod = mod1;
+          k = k.toLowerCase();
+          switch (k) {
+            case 'escape':
+              return _this.stop();
+            default:
+              return _this.update(_this.mod === 'shift' ? SHIFT_KEYS[k] || k : k);
+          }
+        };
+      })(this));
+    }
+
+    InputMode.prototype.update = function(k) {
+      var exit, input, ref, specialKey;
+      specialKey = void 0;
+      switch (this.mod) {
+        case 'ctrl':
+          switch (k) {
+            case 'a':
+              this.pos = 0;
+              break;
+            case 'e':
+              this.pos = this.input.length;
+              break;
+            case 'b':
+              this.movePos(-1);
+              break;
+            case 'f':
+              this.movePos(1);
+              break;
+            case 'p':
+              this.moveHistory(-1);
+              break;
+            case 'n':
+              this.moveHistory(1);
+              break;
+            case 'u':
+              this.input = this.input.substr(this.pos);
+              this.pos = 0;
+              break;
+            case 'k':
+              this.input = this.input.substr(0, this.pos);
+          }
+          break;
+        default:
+          switch (k) {
+            case 'return':
+              specialKey = k;
+              if (!this.history.length || (this.input && this.history[0] !== this.input)) {
+                this.history.unshift(this.input);
+              }
+              this.historyPos = -1;
+              break;
+            case 'tab':
+              specialKey = k;
+              break;
+            case 'down':
+              this.moveHistory(1);
+              break;
+            case 'up':
+              this.moveHistory(-1);
+              break;
+            case 'left':
+              this.movePos(-1);
+              break;
+            case 'right':
+              this.movePos(1);
+              break;
+            case 'delete':
+              this.input = this.input.remove(this.pos - 1);
+              this.movePos(-1);
+              break;
+            case 'forwarddelete':
+              this.input = this.input.remove(this.pos);
+              break;
+            case 'space':
+              this.input = this.input.insert(' ', this.pos);
+              this.movePos(1);
+              break;
+            default:
+              this.input = this.input.insert(k, this.pos);
+              this.movePos(1);
+          }
+      }
+      ref = this.action(this.input, specialKey), input = ref[0], this.output = ref[1], exit = ref[2];
+      if (exit) {
+        return this.stop();
+      }
+      if ((input != null) && input !== this.input) {
+        this.input = input;
+        this.pos = input.length;
+      }
+      this.inputModal.setText(this.prompt + this.input.insert(this.cursor, this.pos)).center();
+      if (this.output != null) {
+        return this.outputModal.setText(this.output).center().show();
+      } else {
+        return this.outputModal.close();
+      }
+    };
+
+    InputMode.prototype.movePos = function(d) {
+      return this.pos = Math.min(this.input.length, Math.max(0, this.pos + d));
+    };
+
+    InputMode.prototype.moveHistory = function(d) {
+      if (this.historyPos === -1) {
+        this.current = this.input;
+      }
+      this.historyPos = Math.min(this.history.length - 1, Math.max(-1, this.historyPos - d));
+      this.input = this.historyPos === -1 ? this.current : this.history[this.historyPos];
+      return this.pos = this.input.length;
+    };
+
+    return InputMode;
+
+  })(Mode);
+
+  ChainWindow = (function() {
+    function ChainWindow(win1, gap1, unit1, tolerance) {
+      this.win = win1;
+      this.gap = gap1 != null ? gap1 : p.wins.gap;
+      this.unit = unit1 != null ? unit1 : p.wins.unit;
+      this.tolerance = tolerance != null ? tolerance : p.wins.tolerance;
+      this.dropSize = this.gap + this.tolerance;
+      this.updateWin();
+    }
+
+    ChainWindow.prototype.ungapped = function(f) {
+      return (function(_this) {
+        return function() {
+          var args, res, ungap;
+          args = 1 <= arguments.length ? slice.call(arguments, 0) : [];
+          ungap = _this.gap / 2;
+          gapify(_this.f, -ungap);
+          gapify(_this.sf, ungap);
+          if (_this.prevSf != null) {
+            gapify(_this.prevSf, ungap);
+          }
+          res = f.apply(null, args);
+          gapify(_this.f, ungap);
+          gapify(_this.sf, -ungap);
+          if (_this.prevSf != null) {
+            gapify(_this.prevSf, -ungap);
+          }
+          return res;
+        };
+      })(this);
+    };
+
+    ChainWindow.prototype.updateWin = function() {
+      this.f = this.win.frame();
+      return this.updateScr(this.win.screen());
+    };
+
+    ChainWindow.prototype.updateScr = function(scr) {
+      var ref;
+      this.prevScr = this.scr != null ? this.scr : scr;
+      this.prevSf = (ref = this.prevScr) != null ? ref.flippedVisibleFrame() : void 0;
+      this.scr = scr;
+      return this.sf = this.scr.flippedVisibleFrame();
+    };
+
+    ChainWindow.prototype.closestIn = function(dir, skipFrame, onlyCatch) {
+      var closest, e;
+      if (skipFrame == null) {
+        skipFrame = false;
+      }
+      if (onlyCatch == null) {
+        onlyCatch = true;
+      }
+      e = edgeOf(this.f, dir, this.gap - (skipFrame ? 0 : 1));
+      closest = edgeOf(this.sf, dir);
+      this.win.others({
+        screen: this.scr,
+        visible: true
+      }).map((function(_this) {
+        return function(win) {
+          var ne, nf;
+          nf = win.frame();
+          ne = edgeOf(nf, oppositeOf(dir));
+          if ((isCloser(dir, e, ne)) && (isCloser(dir, ne, closest)) && (!onlyCatch || catchable(_this.f, dir, nf))) {
+            return closest = ne;
+          }
+        };
+      })(this));
+      return closest;
+    };
+
+    ChainWindow.prototype.set = function() {
+      this.win.setFrame(this.f);
+      return this;
+    };
+
+    ChainWindow.prototype.focus = function() {
+      this.win.focus();
+      return this;
+    };
+
+    ChainWindow.prototype.neighbor = function(dir) {
+      var n, ref;
+      n = (ref = this.win.neighbors(dir)) != null ? ref[0] : void 0;
+      if (n != null) {
+        this.win = n;
+        this.updateWin();
+      }
+      return this;
+    };
+
+    ChainWindow.prototype.mouseTo = function() {
+      Mouse.move({
+        x: this.f.x + this.f.width / 2,
+        y: this.f.y + this.f.height / 2
+      });
+      return this;
+    };
+
+    ChainWindow.prototype.move = function(dx, dy) {
+      this.f.x += dx;
+      this.f.y += dy;
+      return this;
+    };
+
+    ChainWindow.prototype.moveTo = function(x, y) {
+      this.f.x = x;
+      this.f.y = y;
+      return this;
+    };
+
+    ChainWindow.prototype.moveIn = function(dir) {
+      this.move.apply(this, deltaIn(dir, this.unit));
+      return this;
+    };
+
+    ChainWindow.prototype.moveEdgeTo = function(dir, c) {
+      switch (dir) {
+        case SOUTH:
+          this.f.y = c - this.f.height - this.gap;
+          break;
+        case NORTH:
+          this.f.y = c + this.gap;
+          break;
+        case EAST:
+          this.f.x = c - this.f.width - this.gap;
+          break;
+        case WEST:
+          this.f.x = c + this.gap;
+      }
+      return this;
+    };
+
+    ChainWindow.prototype.size = function(dx, dy, center) {
+      if (center == null) {
+        center = false;
+      }
+      if (center) {
+        this.move(-dx / 2, -dy / 2);
+      }
+      this.f.width += dx;
+      this.f.height += dy;
+      return this;
+    };
+
+    ChainWindow.prototype.sizeTo = function(width, height, center) {
+      if (center == null) {
+        center = false;
+      }
+      if (center) {
+        this.move((this.f.width - width) / 2, (this.f.height - height) / 2);
+      }
+      this.f.width = width;
+      this.f.height = height;
+      return this;
+    };
+
+    ChainWindow.prototype.sizeIn = function(dir, center, amt) {
+      if (center == null) {
+        center = false;
+      }
+      if (amt == null) {
+        amt = this.unit;
+      }
+      this.size.apply(this, slice.call(deltaIn(dir, amt)).concat([center]));
+      return this;
+    };
+
+    ChainWindow.prototype.extendIn = function(dir, amt) {
+      if (amt == null) {
+        amt = this.unit;
+      }
+      switch (axisOf(dir)) {
+        case VERTICAL:
+          this.f.height += amt;
+          break;
+        case HORIZONTAL:
+          this.f.width += amt;
+      }
+      switch (dir) {
+        case NORTH:
+          this.f.y -= amt;
+          break;
+        case WEST:
+          this.f.x -= amt;
+      }
+      return this;
+    };
+
+    ChainWindow.prototype.adjustIn = function(dir, amt) {
+      if (amt == null) {
+        amt = this.unit;
+      }
+      this.reFill();
+      this.sizeIn(dir, true, amt);
+      this.set();
+      this.win.others({
+        screen: this.scr,
+        visible: true
+      }).map((function(_this) {
+        return function(win) {
+          return new ChainWindow(win, _this.gap, _this.unit, _this.tolerance).sizeTo(_this.dropSize, _this.dropSize, true).fill().set();
+        };
+      })(this));
+      this.reFill();
+      this.set();
+      return this;
+    };
+
+    ChainWindow.prototype.fill = function(axes, skipFrame) {
+      if (axes == null) {
+        axes = AXES;
+      }
+      if (skipFrame == null) {
+        skipFrame = false;
+      }
+      axes.map((function(_this) {
+        return function(axis) {
+          var height, width, x, y;
+          switch (axis) {
+            case VERTICAL:
+              y = (_this.closestIn(NORTH, skipFrame)) + _this.gap;
+              height = (_this.closestIn(SOUTH, skipFrame)) - y - _this.gap;
+              _this.f.y = y;
+              return _this.f.height = height;
+            case HORIZONTAL:
+              x = (_this.closestIn(WEST, skipFrame)) + _this.gap;
+              width = (_this.closestIn(EAST, skipFrame)) - x - _this.gap;
+              _this.f.x = x;
+              return _this.f.width = width;
+          }
+        };
+      })(this));
+      return this;
+    };
+
+    ChainWindow.prototype.reFill = function() {
+      this.sizeTo(this.dropSize, this.dropSize, true);
+      this.fill();
+      return this;
+    };
+
+    ChainWindow.prototype.fallIn = function(dir) {
+      this.moveEdgeTo(dir, this.closestIn(dir, true));
+      return this;
+    };
+
+    ChainWindow.prototype.pourIn = function(dir) {
+      var g;
+      g = _.extend({}, this.f);
+      this.sizeTo(this.dropSize, this.dropSize, true);
+      this.moveEdgeTo(dir, edgeOf(g, dir, this.gap));
+      this.fallIn(dir);
+      this.fill([oppositeOf(axisOf(dir)), axisOf(dir)]);
+      return this;
+    };
+
+    ChainWindow.prototype.setSpace = function(num) {
+      var next;
+      next = Space.all()[num];
+      if (next != null) {
+        next.addWindows([this.win]);
+        this.win.spaces().map((function(_this) {
+          return function(prev) {
+            if (!prev.isEqual(next)) {
+              return prev.removeWindows([_this.win]);
+            }
+          };
+        })(this));
+        this.updateScr(next.screen());
+      }
+      return this;
+    };
+
+    ChainWindow.prototype.spaceOn = function(num) {
+      var ref;
+      if ((ref = Space.all()[num]) != null) {
+        ref.addWindows([this.win]);
+      }
+      return this;
+    };
+
+    ChainWindow.prototype.spaceOff = function(num) {
+      var ref;
+      if ((ref = Space.all()[num]) != null) {
+        ref.removeWindows([this.win]);
+      }
+      return this;
+    };
+
+    ChainWindow.prototype.spaceToggle = function(num) {
+      var next;
+      next = Space.all()[num];
+      if (next != null) {
+        if (_.some(this.win.spaces().map(function(s) {
+          return s.isEqual(next);
+        }))) {
+          this.spaceOff(num);
+        } else {
+          this.spaceOn(num);
+        }
+      }
+      return this;
+    };
+
+    ChainWindow.prototype.spaceAll = function() {
+      Space.all().map((function(_this) {
+        return function(s) {
+          return s.addWindows([_this.win]);
+        };
+      })(this));
+      return this;
+    };
+
+    ChainWindow.prototype.spaceOnly = function() {
+      Space.all().map((function(_this) {
+        return function(s) {
+          if (!s.isEqual(Space.active())) {
+            return s.removeWindows([_this.win]);
+          }
+        };
+      })(this));
+      return this;
+    };
+
+    ChainWindow.prototype.spaceAllToggle = function() {
+      if (this.win.spaces().length === Space.all().length) {
+        this.spaceOnly();
+      } else {
+        this.spaceAll();
+      }
+      return this;
+    };
+
+    ChainWindow.prototype.setScreen = function(num) {
+      var next;
+      next = Screen.all()[num];
+      if (next != null) {
+        this.setSpace(next.currentSpace().idx());
+      }
+      return this;
+    };
+
+    ChainWindow.prototype.constrain = function() {
+      this.f.width = Math.min(this.f.width, this.sf.width - 2 * this.gap);
+      this.f.height = Math.min(this.f.height, this.sf.height - 2 * this.gap);
+      this.f.x = this.sf.x + Math.min(this.f.x - this.prevSf.x, this.sf.width - (this.f.width + this.gap));
+      this.f.y = this.sf.y + Math.min(this.f.y - this.prevSf.y, this.sf.height - (this.f.height + this.gap));
+      return this;
+    };
+
+    ChainWindow.prototype.reproportion = function() {
+      return this.ungapped((function(_this) {
+        return function() {
+          var xFactor, yFactor;
+          _this.f.x -= _this.prevSf.x;
+          _this.f.y -= _this.prevSf.y;
+          xFactor = _this.sf.width / _this.prevSf.width;
+          _this.f.x *= xFactor;
+          _this.f.width *= xFactor;
+          yFactor = _this.sf.height / _this.prevSf.height;
+          _this.f.y *= yFactor;
+          _this.f.height *= yFactor;
+          _this.f.x += _this.sf.x;
+          _this.f.y += _this.sf.y;
+          return _this;
+        };
+      })(this))();
+    };
+
+    ChainWindow.prototype.center = function() {
+      this.f.x = this.sf.x + (this.sf.width - this.f.width) / 2;
+      this.f.y = this.sf.y + (this.sf.height - this.f.height) / 2;
+      return this;
+    };
+
+    ChainWindow.prototype.maximize = function() {
+      return this.ungapped((function(_this) {
+        return function() {
+          _this.moveTo(_this.sf.x, _this.sf.y);
+          _this.sizeTo(_this.sf.width, _this.sf.height);
+          return _this;
+        };
+      })(this))();
+    };
+
+    ChainWindow.prototype.snap = function(x, y) {
+      if (x == null) {
+        x = null;
+      }
+      if (y == null) {
+        y = null;
+      }
+      return this.ungapped((function(_this) {
+        return function() {
+          if (x != null) {
+            _this.f.width = _this.sf.width * Math.abs(x);
+            if (x < 0) {
+              _this.f.x = _this.sf.x;
+            } else {
+              _this.f.x = _this.sf.x + _this.sf.width - _this.f.width;
+            }
+          }
+          if (y != null) {
+            _this.f.height = _this.sf.height * Math.abs(y);
+            if (y < 0) {
+              _this.f.y = _this.sf.y;
+            } else {
+              _this.f.y = _this.sf.y + _this.sf.height - _this.f.height;
+            }
+          }
+          return _this;
+        };
+      })(this))();
+    };
+
+    return ChainWindow;
+
+  })();
+
+  cw = function() {
+    var win;
+    win = Window.focused() || Window.recent()[0];
+    if (win == null) {
+      Toaster.toast('No windows to chain.');
+      return null;
+    } else {
+      return new ChainWindow(win);
+    }
+  };
+
+  modes = new ModeManager();
+
+  winHint = modes.add(new HintMode(Window.recent, function(w) {
+    return (new ChainWindow(w)).focus().mouseTo();
+  }));
+
+  scrHint = modes.add(new HintMode(Screen.all, function(s, mod) {
+    var ref;
+    if (mod === 'shift') {
+      return (ref = cw()) != null ? ref.setScreen(s.idx()).reproportion().set().focus().mouseTo() : void 0;
+    } else {
+      return s.mouseTo();
+    }
+  }));
+
+  evalInput = modes.add(new InputMode(p["eval"].prompt, function(input, specialKey) {
+    var command, e, err, instant, output, ref, result, returnPressed;
+    instant = (input.charAt(0)) === p["eval"].instantPrefix;
+    command = instant ? input.substr(1) : input;
+    returnPressed = specialKey === 'return';
+    if (command && (instant || returnPressed)) {
+      try {
+        result = JSON.stringify((function(s) {
+          return eval("(" + s + ")");
+        }).call(null, command));
+        output = result != null ? result : '';
+      } catch (error) {
+        e = error;
+        err = p["eval"].progressStr;
+        if (returnPressed) {
+          Phoenix.notify(e);
+        }
+      }
+    }
+    return [(instant ? p["eval"].instantPrefix : '') + ((ref = (returnPressed ? output : void 0)) != null ? ref : command), (instant ? err || output || p["eval"].progressStr : void 0)];
+  }));
+
+  shellInput = modes.add(new InputMode(p.shell.prompt, function(input, specialKey) {
+    var returnPressed;
+    returnPressed = specialKey === 'return';
+    if (input && returnPressed) {
+      Task.run(p.shell.bin, ['-lc'].concat(input), function(r) {
+        Phoenix.notify(r.output || r.error);
+        if (r.error) {
+          return Phoenix.log(r.error);
+        }
+      });
+    }
+    return [(returnPressed ? '' : input), null, returnPressed];
+  }));
+
+  Key.on(p.keys.maximize, p.keys.mods.base, function() {
+    var ref;
+    return (ref = cw()) != null ? ref.maximize().set() : void 0;
+  });
+
+  Key.on(p.keys.center, p.keys.mods.base, function() {
+    var ref;
+    return (ref = cw()) != null ? ref.center().set() : void 0;
+  });
+
+  Key.on(p.keys.reFill, p.keys.mods.base, function() {
+    var ref;
+    return (ref = cw()) != null ? ref.reFill().set() : void 0;
+  });
+
+  Key.on(p.keys.spaceAll, p.keys.mods.pour, function() {
+    var ref;
+    return (ref = cw()) != null ? ref.spaceAllToggle() : void 0;
+  });
+
+  Key.on(p.keys.winHintMode, p.keys.mods.base, function() {
+    return modes.toggle(winHint);
+  });
+
+  Key.on(p.keys.scrHintMode, p.keys.mods.base, function() {
+    return modes.toggle(scrHint);
+  });
+
+  Key.on(p.keys.evalInputMode, p.keys.mods.base, function() {
+    return modes.toggle(evalInput);
+  });
+
+  Key.on(p.keys.shellInputMode, p.keys.mods.base, function() {
+    return modes.toggle(shellInput);
+  });
+
+  Key.on(p.keys.status, p.keys.mods.base, function() {
+    return Task.run('/bin/sh', ["-c", "LANG='ja_JP.UTF-8' date '+%a %-m/%-d %-H:%M'"], function(r) {
+      return Phoenix.notify(r.output);
+    });
+  });
+
+  p.keys.apps.map(function(app, key) {
+    return Key.on(key, p.keys.mods.base, function() {
+      return App.launch(app).focus();
+    });
+  });
+
+  [
+    [
+      p.keys.mods.move, function(num) {
+        var ref;
+        return (ref = cw()) != null ? ref.setSpace(num).reproportion().set().focus().mouseTo() : void 0;
+      }
+    ], [
+      p.keys.mods.pour, function(num) {
+        var ref;
+        return (ref = cw()) != null ? ref.spaceToggle(num) : void 0;
+      }
+    ]
+  ].map(function(arg) {
+    var action, mod;
+    mod = arg[0], action = arg[1];
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(function(num) {
+      var s;
+      s = '' + num;
+      return Key.on(s.substr(s.length - 1), mod, function() {
+        return action(num - 1);
+      });
+    });
+    return p.keys.offsets.map(function(offset, key) {
+      return Key.on(key, mod, function() {
+        var idx, slen;
+        idx = Screen.moused().currentSpace().idx();
+        slen = Space.all().length;
+        return action((((idx + offset) % slen) + slen) % slen);
+      });
+    });
+  });
+
+  [
+    // [
+    //   p.keys.mods.base, function(dir) {
+    //     var ref;
+    //     return (ref = cw()) != null ? ref.neighbor(dir).focus().mouseTo() : void 0;
+    //   }
+    // ],
+    [
+      p.keys.mods.move, function(dir) {
+        var ref;
+        return (ref = cw()) != null ? ref.moveIn(dir).set() : void 0;
+      }
+    ], [
+      p.keys.mods.size, function(dir) {
+        var ref;
+        return (ref = cw()) != null ? ref.sizeIn(dir).set() : void 0;
+      }
+    ], [
+      p.keys.mods.pour, function(dir) {
+        var ref;
+        return (ref = cw()) != null ? ref.pourIn(dir).set() : void 0;
+      }
+    ], [
+      p.keys.mods.tile, function(dir) {
+        var ref;
+        return (ref = cw()) != null ? ref.adjustIn(dir).set() : void 0;
+      }
+    ]
+  ].map(function(arg) {
+    var action, mod;
+    mod = arg[0], action = arg[1];
+    return p.keys.dirs.map(function(dir, key) {
+      return Key.on(key, mod, function() {
+        return action(dir);
+      });
+    });
+  });
+
+  p.keys.snaps.map(function(dest, key) {
+    return Key.on(key, p.keys.mods.base, function() {
+      var ref;
+      return (ref = cw()) != null ? ref.snap.apply(ref, dest).set() : void 0;
+    });
+  });
+
+  Phoenix.notify('Config loaded.');
+
+}).call(this);
