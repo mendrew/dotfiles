@@ -1,7 +1,7 @@
 # ~/.tmuxinator/campus.yml
 
 name: campus
-root: ~/src/grad-connection/campus
+root: ~/src/grand-connection/campus
 
 # Optional tmux socket
 # socket_name: foo
