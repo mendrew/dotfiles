@@ -81,6 +81,9 @@ bind a send-prefix
 set-option -g prefix C-a
 bind-key C-a last-window
 
+# send as prefix key Ctrl-s to remote ssh tmux session
+bind-key -n C-s send-prefix
+
 # split window and fix path for tmux 1.9
 bind | split-window -h -c "#{pane_current_path}"
 bind - split-window -v -c "#{pane_current_path}"
