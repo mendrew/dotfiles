@@ -62,10 +62,10 @@ if which ruby >/dev/null && which gem >/dev/null; then
 fi
 
 # NVM and Pyenv
-if [ "$(uname)" == "Darwin" ]; then
+if [ "$(uname)" = "Darwin" ]; then
     export NVM_DIR="/Users/mendrew/.nvm"
     export PATH="/Users/mendrew/.pyenv/bin:$PATH"
-elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+elif [ "$(expr substr $(uname -s) 1 5)" = "Linux" ]; then
     export NVM_DIR="/home/mendrew/.nvm"
     export PATH="/home/mendrew/.pyenv/bin:$PATH"
 fi
@@ -102,3 +102,5 @@ alias mux=tmuxinator
 
 
 
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
