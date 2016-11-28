@@ -1,7 +1,7 @@
 # ~/.tmuxinator/campus.yml
 
 name: campus
-root: ~/src/grad-connection/campus
+root: ~/src/grand-connection/campus
 
 # Optional tmux socket
 # socket_name: foo
@@ -10,7 +10,7 @@ root: ~/src/grad-connection/campus
 # pre: sudo /etc/rc.d/mysqld start
 
 # Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
-pre_window: nvm use campus && . ../bin/activate
+# pre_window: rbenv shell 2.0.0-p247
 
 # Pass command line options to tmux. Useful for specifying a different tmux.conf.
 # tmux_options: -f ~/.tmux.mac.conf
