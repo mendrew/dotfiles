@@ -1,4 +1,4 @@
-# ~/.tmuxinator/campus.yml
+# ~/.tmuxinator/gc5.yml
 
 name: gc5
 root: ~/src/gc5
@@ -33,15 +33,14 @@ windows:
       panes:
         - cd gc5-web && vim .
         - cd gc5-react && vim .
-        # - source ../bin/activate && cd gc5-web && vim .
-        # - source ../bin/activate && cd gc5-react && vim .
   - server:
-      layout: main-vertical
+      layout: 7954,180x41,0,0{107x41,0,0,7,72x41,108,0[72x20,108,0,10,72x20,108,21,14]}
       panes:
-        - source ../bin/activate && cd src/django-app && DEBUG=True python manage.py runserver 9000
-        - cd src/react-client; gulp
+        - cd gc5-web && DEBUG=True python manage.py runserver 7000
+        - cd gc5-react && BASE_HOST=http://gc5.com npm start
+        - cd gc5-react && BASE_HOST=http://gc5.com npm run main
   - database:
       layout: main-vertical
       panes:
-        - pg_ctl -D /usr/local/var/campus -l logfile start
-        - redis-server --port 6379
+        - cd gc5-web && celery -A gradcon worker -l info
+        - redis-server
