@@ -13,7 +13,7 @@ set smartcase               " Override the 'ignorecase' option if the search pat
 set incsearch               " While typing a search command, show where the pattern
 nnoremap <silent> <cr> :nohlsearch<cr><cr>
 
-set synmaxcol=0
+set synmaxcol=250
 set cmdheight=2
 " set nowrap
 " try to wrap too long line like optimization line
