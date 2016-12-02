@@ -1,7 +1,7 @@
 # ~/.tmuxinator/quest.yml
 
 name: quest
-root: ~/quests/questroom-head
+root: ~/src/quests/questroom-head
 
 # Optional tmux socket
 # socket_name: foo
@@ -31,7 +31,7 @@ windows:
   - editor:
       layout: 926e,136x41,0,0[136x38,0,0,0,136x2,0,39,2]
       panes:
-        - vim .
+        - . ../bin/activate; vim .
         - python2.7
   - server:
       layout: 0b6e,136x41,0,0{80x41,0,0[80x20,0,0,0,80x20,0,21,4],55x41,81,0,2}
