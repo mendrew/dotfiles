@@ -15,6 +15,9 @@ if "test ! -d ~/.tmux/plugins/tpm" \
 run '~/.tmux/plugins/tpm/tpm'
 
 
+# Fix vim copy into plus reg
+set-option -g default-command "reattach-to-user-namespace -l zsh"
+
 # https://github.com/seebi/tmux-colors-solarized/blob/master/tmuxcolors-256.conf
 set-option -g status-bg colour235 #base02
 set-option -g status-fg colour136 #yellow
