@@ -1,0 +1,24 @@
+{
+    "ecmaVersion": 6,
+    "libs": [
+        "browser",
+        "jquery"
+    ],
+    "dontLoad": [
+        "$TM_FILEPATH/node_modules/**"
+    ],
+    "plugins": {
+        "jsx": {},
+        "angular": {},
+        "complete_strings": {},
+        "node-express": {},
+        "node": {},
+        "lint": {},
+        "requirejs": {},
+        "modules": {},
+        "es_modules": {},
+        "doc_comment": {
+            "fullDocs": true
+        }
+    }
+}

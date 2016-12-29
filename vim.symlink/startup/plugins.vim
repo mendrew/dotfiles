@@ -1,6 +1,6 @@
 " Plugin settings with switch statement to play with that in different patforms
 
-set nocompatible              " be iMproved, required
+" set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
@@ -24,7 +24,6 @@ Plugin 'wincent/loupe'
 Plugin 'rking/ag.vim'
 " Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
-" Plugin 'tomtom/tcomment_vim'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-unimpaired' " ]q is :cnext.
 Plugin 'tpope/vim-repeat'
@@ -35,6 +34,8 @@ Plugin 'ternjs/tern_for_vim'
 " Plugin 'Valloric/YouCompleteMe'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'matchit.zip'
+" support undo commands
+Plugin 'sjl/gundo.vim'
 " support tags
 " Plugin 'majutsushi/tagbar'
 " Plugin 'xolox/vim-easytags'
@@ -46,15 +47,12 @@ Plugin 'Shougo/neosnippet-snippets'
 Plugin 'honza/vim-snippets'
 
 " language specific
-" Plugin 'JamshedVesuna/vim-markdown-preview'
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
 Plugin 'gavocanov/vim-js-indent'
 Plugin 'mattn/emmet-vim'
 Plugin 'klen/python-mode'
-" Plugin 'nono/vim-handlebars' " deprecated
 Plugin 'mustache/vim-mustache-handlebars'
-" Plugin 'skammer/vim-css-color'
 Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'gorodinskiy/vim-coloresque'
 Plugin 'moll/vim-node'

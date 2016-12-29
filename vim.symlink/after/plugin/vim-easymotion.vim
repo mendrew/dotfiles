@@ -1,4 +1,5 @@
 " let g:EasyMotion_do_mapping = 0 " Disable default mappings
+map <LocalLeader><LocalLeader> <Plug>(easymotion-prefix)
 
 " Jump to anywhere you want with minimal keystrokes, with just one key binding.
 " `s{char}{label}`
