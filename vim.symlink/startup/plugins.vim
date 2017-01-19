@@ -17,6 +17,7 @@ Plugin 'VundleVim/Vundle.vim'
 " plugin on GitHub repo
 
 Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'wincent/command-t'
 Plugin 'wincent/ferret'
 Plugin 'ntpeters/vim-better-whitespace'
 " for regexp in magic mode
@@ -47,6 +48,7 @@ Plugin 'Shougo/neosnippet-snippets'
 Plugin 'honza/vim-snippets'
 
 " language specific
+Plugin 'Chiel92/vim-autoformat'
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
 Plugin 'gavocanov/vim-js-indent'
