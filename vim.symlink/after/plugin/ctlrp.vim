@@ -6,3 +6,10 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/node_modules/*
 
 " set max results
 let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:15,results:70'
+
+" use cache
+if !exists('$SUDO_USER')
+  let g:ctrlp_use_caching = 1
+  let g:ctrlp_clear_cache_on_exit = 0
+  let g:ctrlp_cache_dir = $HOME.'/.vim/tmp/backup'
+endif
