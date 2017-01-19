@@ -31,16 +31,28 @@ windows:
   - editor:
       layout: main-vertical
       panes:
-        - cd gc5-web && vim .
-        - cd gc5-react && vim .
+        - gc5-web:
+          - cd gc5-web
+          - vim .
+        - gc5-react:
+          - cd gc5-react
+          - vim .
   - server:
       layout: 7954,180x41,0,0{107x41,0,0,7,72x41,108,0[72x20,108,0,10,72x20,108,21,14]}
       panes:
-        - cd gc5-web && DEBUG=True python manage.py runserver 7000
-        - cd gc5-react && BASE_HOST=http://gc5.com npm start
-        - cd gc5-react && BASE_HOST=http://gc5.com npm run main
+        - django-server:
+          - cd gc5-web
+          - DEBUG=True python manage.py runserver 7000
+        - react-npm-start:
+          - cd gc5-react
+          - BASE_HOST=http://gc5.com npm start
+        - react-npm-main:
+          - cd gc5-react
+          - BASE_HOST=http://gc5.com npm run main
   - database:
       layout: main-vertical
       panes:
-        - cd gc5-web && celery -A gradcon worker -l info
+        - celery-start:
+          - cd gc5-web
+          - celery -A gradcon worker -l info
         - redis-server
