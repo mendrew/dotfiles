@@ -31,14 +31,17 @@ windows:
   - editor:
       layout: 926e,136x41,0,0[136x38,0,0,0,136x2,0,39,2]
       panes:
-        - . ../bin/activate; vim .
-        - python2.7
-  - server:
-      layout: 0b6e,136x41,0,0{80x41,0,0[80x20,0,0,0,80x20,0,21,4],55x41,81,0,2}
-      panes:
-        - tmux send "DEBUG_MASTER=1 python2.7 server.py"
-        - htop
-        - cd tests; tmux send "python2.7 pass_quest.py"
-  - console:
-      panes:
-        - firefox --new-window; firefox --url dashboard.html index.html http://localhost:8888/?id=1 http://localhost:8888/?id=2 http://localhost:8888/dashboard
+        - editor:
+          - . ../bin/activate
+          -  vim .
+        - interpretator:
+          - python2.7
+  # - server:
+  #     layout: 0b6e,136x41,0,0{80x41,0,0[80x20,0,0,0,80x20,0,21,4],55x41,81,0,2}
+  #     panes:
+  #       - tmux send "DEBUG_MASTER=1 python2.7 server.py"
+  #       - htop
+  #       - cd tests; tmux send "python2.7 pass_quest.py"
+  # - console:
+  #     panes:
+  #       - firefox --new-window; firefox --url dashboard.html index.html http://localhost:8888/?id=1 http://localhost:8888/?id=2 http://localhost:8888/dashboard
