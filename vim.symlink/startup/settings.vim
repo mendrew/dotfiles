@@ -66,6 +66,9 @@ if has('vertsplit')
   set splitright                      " open vertical splits to the right of the current window
 endif
 
+" set spell checking
+set spell
+
 set laststatus=2
 set vb t_vb=
 
