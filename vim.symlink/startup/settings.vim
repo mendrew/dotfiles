@@ -48,6 +48,24 @@ set linespace=0
 set history=1000
 set listchars=tab:› ,trail:-,extends:>,precedes:<,eol:¬
 
+if has('linebreak')
+  let &showbreak='↳ ' " DOWNWARDS ARROW WITH TIP RIGHTWARDS (U+21B3, UTF-8: E2 86 B3)
+endif
+
+if exists('+colorcolumn')
+  " Highlight up to 255 columns (this is the current Vim max) beyond 'textwidth'
+  let &l:colorcolumn='+' . join(range(0, 254), ',+')
+endif
+set textwidth=80
+
+if has('windows')
+  set splitbelow                      " open horizontal splits below current window
+endif
+
+if has('vertsplit')
+  set splitright                      " open vertical splits to the right of the current window
+endif
+
 set laststatus=2
 set vb t_vb=
 
@@ -76,6 +94,10 @@ else
   set directory+=.
 endif
 
+set swapsync=  " let OS sync swapfiles lazily
+set updatecount=80   " update swapfiles every 80 typed chars
+set updatetime=2000  " same as YCM
+
 if has('persistent_undo')
   if exists('$SUDO_USER')
     set noundofile                    " don't create root-owned files
@@ -85,4 +107,31 @@ if has('persistent_undo')
     set undodir+=.
     set undofile                      " actually use undo files
   endif
+endif
+
+if has('viminfo')
+  if exists('$SUDO_USER')
+    set viminfo=                      " don't create root-owned files
+  else
+    if isdirectory('~/local/.vim/tmp')
+      set viminfo+=n~/local/.vim/tmp/viminfo
+    else
+      set viminfo+=n~/.vim/tmp/viminfo " override ~/.viminfo default
+    endif
+
+    if !empty(glob('~/.vim/tmp/viminfo'))
+      if !filereadable(expand('~/.vim/tmp/viminfo'))
+        echoerr 'warning: ~/.vim/tmp/viminfo exists but is not readable'
+      endif
+    endif
+  endif
+endif
+
+if has('mksession')
+  if isdirectory('~/local/.vim/tmp')
+    set viewdir=~/local/.vim/tmp/view
+  else
+    set viewdir=~/.vim/tmp/view       " override ~/.vim/view default
+  endif
+  set viewoptions=cursor,folds        " save/restore just these (with `:{mk,load}view`)
 endif
