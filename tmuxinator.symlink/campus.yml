@@ -1,7 +1,7 @@
 # ~/.tmuxinator/campus.yml
 
 name: campus
-root: ~/src/grad-connection/campus
+root: ~/src/gradconnection/campus
 
 # Optional tmux socket
 # socket_name: foo
@@ -10,7 +10,13 @@ root: ~/src/grad-connection/campus
 # pre: sudo /etc/rc.d/mysqld start
 
 # Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
-pre_window: nvm use campus && . ../bin/activate
+pre_window:
+  export CAMPUS_PROTOCOL=http;
+  export CAMPUS_LOCALES=en-gb,zh-hant,zh-hans;
+  export CAMPUS_HOST=dev.campus.com;
+  export CAMPUS_RAVEN_DSN=https://eee298d52noDeogo.com;
+  . ../bin/activate;
+  nvm use campus
 
 # Pass command line options to tmux. Useful for specifying a different tmux.conf.
 # tmux_options: -f ~/.tmux.mac.conf
@@ -28,16 +34,27 @@ pre_window: nvm use campus && . ../bin/activate
 # post: tmux -CC attach -t campus
 
 windows:
-  - editor:
+  - django-app:
       layout: main-vertical
       panes:
-        - cd src/django-app; vim .
-        - cd src/react-client; vim .
+        - djnago-app:
+          - cd src/django-app
+          - vim .
+  - react-app:
+      layout: main-vertical
+      panes:
+        - react-app:
+          - cd src/react-client
+          - vim .
   - server:
-      layout: main-vertical
+      layout: 7954,180x41,0,0{107x41,0,0,7,72x41,108,0[72x20,108,0,10,72x20,108,21,14]}
       panes:
-        - source ../bin/activate && cd src/django-app && DEBUG=True python manage.py runserver 9000
-        - cd src/react-client; gulp
+        - django-server:
+          - cd src/django-app
+          - DEBUG=True python manage.py runserver 9000
+        - react-gulp:
+          - cd src/react-client
+          - gulp
   - database:
       layout: main-vertical
       panes:
