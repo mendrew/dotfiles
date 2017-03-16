@@ -53,6 +53,7 @@ Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
 Plugin 'gavocanov/vim-js-indent'
 Plugin 'mattn/emmet-vim'
+Plugin 'othree/html5.vim'
 " Plugin 'klen/python-mode'
 Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'cakebaker/scss-syntax.vim'
@@ -72,6 +73,9 @@ Plugin 'altercation/vim-colors-solarized'
 
 " Ruskey
 Plugin 'powerman/vim-plugin-ruscmd'
+
+" CodeStyle per project
+Plugin 'editorconfig/editorconfig-vim'
 
 
 " plugin from http://vim-scripts.org/vim/scripts.html
