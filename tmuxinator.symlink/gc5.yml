@@ -28,12 +28,15 @@ pre_window: . ./bin/activate && nvm use campus
 # post: tmux -CC attach -t campus
 
 windows:
-  - editor:
+  - gc5-web:
       layout: main-vertical
       panes:
         - gc5-web:
           - cd gc5-web
           - vim .
+  - gc5-react:
+      layout: main-vertical
+      panes:
         - gc5-react:
           - cd gc5-react
           - vim .
