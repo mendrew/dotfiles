@@ -10,7 +10,7 @@ root: ~/src/quests/questroom-head
 # pre: sudo /etc/rc.d/mysqld start
 
 # Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
-# pre_window: rbenv shell 2.0.0-p247
+pre_window: . ../bin/activate
 
 # Pass command line options to tmux. Useful for specifying a different tmux.conf.
 # tmux_options: -f ~/.tmux.mac.conf
@@ -32,10 +32,23 @@ windows:
       layout: 926e,136x41,0,0[136x38,0,0,0,136x2,0,39,2]
       panes:
         - editor:
-          - . ../bin/activate
           -  vim .
         - interpretator:
-          - python2.7
+          - python
+
+  - server:
+      layout: f618,180x51,0,0[180x35,0,0,5,180x15,0,36,4]
+      panes:
+        - server:
+          - DEBUG_MASTER=1 python server.py
+        - htop:
+          - htop
+
+  - task:
+      layout: main-vertical
+      panes:
+        - vim ../
+
   # - server:
   #     layout: 0b6e,136x41,0,0{80x41,0,0[80x20,0,0,0,80x20,0,21,4],55x41,81,0,2}
   #     panes:
