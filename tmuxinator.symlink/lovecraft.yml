@@ -9,9 +9,9 @@ root: ~/src/quests/questroom-lovecraft
 
 # Runs before everything. Use it to start daemons etc.
 # pre: sudo /etc/rc.d/mysqld start
+pre_window: . ../bin/activate
 
 # Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
-# pre_window: rbenv shell 2.0.0-p247
 
 # Pass command line options to tmux. Useful for specifying a different tmux.conf.
 # tmux_options: -f ~/.tmux.mac.conf
@@ -32,15 +32,24 @@ windows:
   - editor:
       layout: 926e,136x41,0,0[136x38,0,0,0,136x2,0,39,2]
       panes:
-        - vim .
-        - python2.7
-  # - server:
-  #     layout: 0b6e,136x41,0,0{80x41,0,0[80x20,0,0,0,80x20,0,21,4],55x41,81,0,2}
-  #     panes:
-  #       - tmux send "DEBUG_MASTER=1 python2.7 server.py"
-  #       - htop
-  #       - cd tests; tmux send "python2.7 pass_quest.py"
-  # - console:
-  #     panes:
+        - editor:
+          -  vim .
+        - interpretator:
+          - python
+
+  - server:
+      layout: f618,180x51,0,0[180x35,0,0,5,180x15,0,36,4]
+      panes:
+        - server:
+          - DEBUG_MASTER=1 python server.py
+        - htop:
+          - htop
+
+  - task:
+      layout: main-vertical
+      panes:
+        - vim ../
+
+
         # - tmux send "firefox --new-window &; firefox --url dashboard.html index.html http://localhost:8888/?id=1 http://localhost:8888/?id=2 http://localhost:8888/dashboard"
         # - cd ../docs; open_command lovecraft_story.pdf &; open_command device_and_puzzles_description.pdf &; open_command items_plan.pdf;
