@@ -10,7 +10,12 @@ root: ~/src/gc5
 # pre: sudo /etc/rc.d/mysqld start
 
 # Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
-pre_window: . ./bin/activate && nvm use campus
+pre_window:
+  export CDN_BASE_URL=https://assets.cdn.gradconnection.com;
+  export BUILD_VERSION=v1.22.4-1;
+  export GEOIP_PATH=geoip;
+  . ./bin/activate ;
+  nvm use campus
 
 # Pass command line options to tmux. Useful for specifying a different tmux.conf.
 # tmux_options: -f ~/.tmux.mac.conf
@@ -32,26 +37,43 @@ windows:
       layout: main-vertical
       panes:
         - gc5-web:
+          - . ./environment-settings/gc5-web-env.txt
           - cd gc5-web
           - vim .
   - gc5-react:
       layout: main-vertical
       panes:
         - gc5-react:
+          - . ./environment-settings/gc5-react-env.txt
           - cd gc5-react
           - vim .
+  - jm-web:
+      layout: main-vertical
+      panes:
+        - jm-web:
+          - . ./environment-settings/jm-web-env.txt
+          - cd jm-web
+          - vim .
   - server:
-      layout: 7954,180x41,0,0{107x41,0,0,7,72x41,108,0[72x20,108,0,10,72x20,108,21,14]}
+      layout: b443,177x51,0,0[178x25,0,0{88x25,0,0,26,89x25,89,0,28},178x26,0,26{88x26,0,26,29,89x26,89,26,30}] 
       panes:
         - django-server:
+          - . ./environment-settings/gc5-web-env.txt
           - cd gc5-web
           - DEBUG=True python manage.py runserver 7000
         - react-npm-start:
+          - . ./environment-settings/gc5-react-env.txt
           - cd gc5-react
-          - BASE_HOST=http://gc5.com npm start
+          - npm start
         - react-npm-main:
+          - . ./environment-settings/gc5-react-env.txt
           - cd gc5-react
-          - BASE_HOST=http://gc5.com npm run main
+          - npm run main
+        - jm-web:
+          - . ./environment-settings/jm-web-env.txt
+          - cd jm-web
+          - DEBUG=True python manage.py runserver 0.0.0.0:9000
+
   - database:
       layout: main-vertical
       panes:
@@ -59,3 +81,9 @@ windows:
           - cd gc5-web
           - celery -A gradcon worker -l info
         - redis-server
+  - django:
+      layout: main-vertical
+      panes:
+        - django-main-package:
+          - cd lib/python3.5/site-packages/django
+          - vim .
