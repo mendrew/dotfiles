@@ -1,8 +1,7 @@
 # ~/.tmuxinator/upwork-pro.yml
 
 name: upwork-pro
-root: ~/src/upwork-pro/javascipt-invoices
-
+root: ~/src/soshace/UpWork-Pro
 # Optional tmux socket
 # socket_name: foo
 
@@ -10,7 +9,8 @@ root: ~/src/upwork-pro/javascipt-invoices
 # pre: sudo /etc/rc.d/mysqld start
 
 # Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
-# pre_window: rbenv shell 2.0.0-p247
+pre_window:
+  npm use stable
 
 # Pass command line options to tmux. Useful for specifying a different tmux.conf.
 # tmux_options: -f ~/.tmux.mac.conf
@@ -31,6 +31,9 @@ windows:
   - editor:
       layout: main-vertical
       panes:
-        - vim
-        -
-  - logs:
+        - vim .
+  - server:
+      layout: main-vertical
+      panes:
+        - node app.js
+
