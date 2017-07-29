@@ -17,6 +17,7 @@ Plugin 'VundleVim/Vundle.vim'
 " plugin on GitHub repo
 
 Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'JazzCore/ctrlp-cmatcher'
 Plugin 'wincent/command-t'
 Plugin 'wincent/ferret'
 Plugin 'ntpeters/vim-better-whitespace'
@@ -42,10 +43,10 @@ Plugin 'sjl/gundo.vim'
 " Plugin 'xolox/vim-easytags'
 " Plugin 'xolox/vim-misc'
 " snippets support
-Plugin 'Shougo/neocomplete'
+" Plugin 'Shougo/neocomplete'
 Plugin 'Shougo/neosnippet'
 Plugin 'Shougo/neosnippet-snippets'
-Plugin 'honza/vim-snippets'
+" Plugin 'honza/vim-snippets'
 
 " language specific
 Plugin 'Chiel92/vim-autoformat'
@@ -70,12 +71,15 @@ Plugin 'vim-airline/vim-airline-themes'
 "
 " colors
 Plugin 'altercation/vim-colors-solarized'
+Plugin 'sjl/badwolf'
+Plugin 'w0ng/vim-hybrid'
+
 
 " Ruskey
 Plugin 'powerman/vim-plugin-ruscmd'
 
 " CodeStyle per project
-Plugin 'editorconfig/editorconfig-vim'
+" Plugin 'editorconfig/editorconfig-vim'
 
 
 " plugin from http://vim-scripts.org/vim/scripts.html
