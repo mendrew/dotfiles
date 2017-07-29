@@ -20,6 +20,6 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_mode_map = {
       \ "mode": "active",
       \ "active_filetypes": [],
-      \ "passive_filetypes": ["python"] }
+      \ "passive_filetypes": ["python", "javascript", "javascript.jsx"] }
 
 
