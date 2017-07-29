@@ -73,7 +73,7 @@ set laststatus=2
 set vb t_vb=
 
 " For russian keyboard
-set keymap=russian-jcukenwin
+" set keymap=russian-jcukenwin
 set iminsert=0
 set imsearch=0
 highlight lCursor guifg=NONE guibg=Cyan
