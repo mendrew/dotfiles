@@ -7,5 +7,7 @@ else
     set term=screen-256color
     let g:solarized_termcolors=256
     colorscheme solarized
+    " colorscheme badwolf
+    " colorscheme hybrid
     set background=dark
 endif
