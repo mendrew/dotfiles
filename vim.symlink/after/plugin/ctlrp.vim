@@ -16,3 +16,6 @@ if !exists('$SUDO_USER')
   let g:ctrlp_clear_cache_on_exit = 0
   let g:ctrlp_cache_dir = $HOME.'/.vim/tmp/backup'
 endif
+
+let g:ctrlp_max_files = 999999
+let g:ctrlp_match_func = {'match' : 'matcher#cmatch'}
