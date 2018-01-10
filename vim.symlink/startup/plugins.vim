@@ -73,6 +73,8 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'sjl/badwolf'
 Plugin 'w0ng/vim-hybrid'
+Plugin 'trevordmiller/nova-vim'
+
 
 
 " Ruskey
