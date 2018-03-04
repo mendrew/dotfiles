@@ -65,3 +65,9 @@ vno <up> <Nop>
 
 " Prevent unnoing K mapping
 nnoremap K <nop>
+
+" Set working directory to the current file
+" could be done by 'set autochdir' or 'autocmd BufEnter * silent! lcd %:p:h'
+" but it could break plugins work
+nnoremap <LocalLeader>cd :lcd %:p:h<CR>:pwd<CR>
+
