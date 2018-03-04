@@ -90,6 +90,8 @@ Plugin 'w0ng/vim-hybrid'
 Plugin 'trevordmiller/nova-vim'
 
 
+" System modifications
+Plugin 'wincent/terminus'
 
 " Ruskey
 Plugin 'powerman/vim-plugin-ruscmd'
