@@ -38,8 +38,8 @@ Plugin 'tpope/vim-surround'
 Plugin 'ternjs/tern_for_vim'
 " Plugin 'Valloric/YouCompleteMe'
 Plugin 'w0rp/ale' " async linter
-Plugin 'easymotion/vim-easymotion'
-Plugin 'matchit.zip'
+" Plugin 'easymotion/vim-easymotion'
+" Plugin 'matchit.zip'
 " support undo commands
 Plugin 'sjl/gundo.vim'
 " support tags
@@ -85,8 +85,8 @@ Plugin 'vim-airline/vim-airline-themes'
 "
 " colors
 Plugin 'altercation/vim-colors-solarized'
-Plugin 'sjl/badwolf'
-Plugin 'w0ng/vim-hybrid'
+" Plugin 'sjl/badwolf'
+" Plugin 'w0ng/vim-hybrid'
 Plugin 'trevordmiller/nova-vim'
 
 
