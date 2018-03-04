@@ -74,6 +74,9 @@ Plugin 'mpyatishev/vim-sqlformat'
 "
 " for git
 Plugin 'tpope/vim-fugitive', {'name': 'fugitive'}
+Plugin 'tpope/vim-rhubarb'
+Plugin 'junegunn/gv.vim'
+
 " for mercurial
 " Plugin 'ludovicchabant/vim-lawrencium'
 
