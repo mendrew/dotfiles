@@ -52,14 +52,14 @@ Plugin 'Shougo/neosnippet-snippets'
 " Plugin 'honza/vim-snippets'
 
 " language specific
-Plugin 'Chiel92/vim-autoformat'
+" Plugin 'Chiel92/vim-autoformat'
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
 Plugin 'gavocanov/vim-js-indent'
 Plugin 'mattn/emmet-vim'
 Plugin 'othree/html5.vim'
 " Plugin 'klen/python-mode'
-Plugin 'mustache/vim-mustache-handlebars'
+" Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'gorodinskiy/vim-coloresque'
 Plugin 'moll/vim-node'
@@ -74,8 +74,8 @@ Plugin 'vim-airline/vim-airline-themes'
 "
 " colors
 Plugin 'altercation/vim-colors-solarized'
-Plugin 'sjl/badwolf'
-Plugin 'w0ng/vim-hybrid'
+" Plugin 'sjl/badwolf'
+" Plugin 'w0ng/vim-hybrid'
 Plugin 'trevordmiller/nova-vim'
 
 
