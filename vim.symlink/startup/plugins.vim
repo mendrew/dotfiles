@@ -64,6 +64,13 @@ Plugin 'othree/html5.vim'
 Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'gorodinskiy/vim-coloresque'
 Plugin 'moll/vim-node'
+Plugin 'nikvdp/ejs-syntax'
+" Plugin 'umutcoskun/vim-mule' " for django, long vim start
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
+Plugin 'chrisbra/csv.vim'
+Plugin 'mpyatishev/vim-sqlformat'
+
 "
 " for git
 Plugin 'tpope/vim-fugitive', {'name': 'fugitive'}
