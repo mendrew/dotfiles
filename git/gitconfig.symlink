@@ -8,3 +8,4 @@
 [alias]
 	print = log --all --oneline --decorate --graph
 	printl = log --oneline --decorate --graph
+  checkoutf = "! git branch | fzf | xargs git checkout"
