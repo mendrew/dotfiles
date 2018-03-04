@@ -18,20 +18,23 @@ Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'JazzCore/ctrlp-cmatcher'
-Plugin 'wincent/command-t'
+" Plugin 'wincent/command-t'
+" Plugin 'devjoe/vim-codequery'
+
 Plugin 'wincent/ferret'
 Plugin 'ntpeters/vim-better-whitespace'
 " for regexp in magic mode
 Plugin 'wincent/loupe'
 Plugin 'rking/ag.vim'
 " Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/syntastic'
+" Plugin 'scrooloose/syntastic'
+" Plugin 'scrooloose/nerdcommenter'
+Plugin 'tpope/vim-dispatch'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-unimpaired' " ]q is :cnext.
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
-Plugin 'wellle/targets.vim'
-Plugin 'godlygeek/tabular'
+" Plugin 'wellle/targets.vim'
 Plugin 'ternjs/tern_for_vim'
 " Plugin 'Valloric/YouCompleteMe'
 Plugin 'easymotion/vim-easymotion'
@@ -79,6 +82,10 @@ Plugin 'trevordmiller/nova-vim'
 
 " Ruskey
 Plugin 'powerman/vim-plugin-ruscmd'
+
+" Break habbits
+Plugin 'takac/vim-hardtime'
+Plugin 'wikitopian/hardmode'
 
 " CodeStyle per project
 " Plugin 'editorconfig/editorconfig-vim'
