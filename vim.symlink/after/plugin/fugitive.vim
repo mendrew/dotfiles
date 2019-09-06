@@ -6,10 +6,10 @@
 " If you want, you could create a mapping to make this easier.
 " Here’s an example, which maps .. to the above command,
 " but only for buffers containing a git blob or tree:
-autocmd User fugitive
-  \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
-  \   nnoremap <buffer> .. :edit %:h<CR> |
-  \ endif
+" autocmd User fugitive
+"   \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
+"   \   nnoremap <buffer> .. :edit %:h<CR> |
+"   \ endif
 
 
 " Auto-clean fugitive buffers
@@ -19,4 +19,4 @@ autocmd User fugitive
 "
 " Here’s an autocommand that prevents this from becomming an issue:
 
-autocmd BufReadPost fugitive://* set bufhidden=delete
+" autocmd BufReadPost fugitive://* set bufhidden=delete

@@ -5,7 +5,7 @@ let g:ctrlp_working_path_mode = 'ra'
 if executable("ag")
   let g:ctrlp_user_command = 'ag %s -l --hidden --nocolor -g ""'
 endif
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/node_modules/*
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/node_modules/*,*/.git/*
 
 " set max results
 let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:15,results:70'
@@ -17,5 +17,5 @@ if !exists('$SUDO_USER')
   let g:ctrlp_cache_dir = $HOME.'/.vim/tmp/backup'
 endif
 
-let g:ctrlp_max_files = 999999
-let g:ctrlp_match_func = {'match' : 'matcher#cmatch'}
+" let g:ctrlp_max_files = 999999
+" let g:ctrlp_match_func = {'match' : 'matcher#cmatch'}

@@ -2,13 +2,15 @@
 if &term =~? 'qansi-m'
     colorscheme qnx6
 else
-    " colorscheme BusyBee_map
+    set termguicolors
     " set t_Co=256
     " set term=screen-256color
     " let g:solarized_termcolors=256
+    " set background=light
     " colorscheme solarized
     " colorscheme badwolf
     " colorscheme hybrid
     colorscheme nova
-    " set background=dark
+    " let ayucolor="mirage"
+    " colorscheme ayu
 endif

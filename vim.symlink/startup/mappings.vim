@@ -1,7 +1,6 @@
 " Leader key
 let mapleader="\<space>"
 let maplocalleader=','
-
 " Exit from insert mode easy way
 inoremap jk <esc>
 
@@ -70,4 +69,3 @@ nnoremap K <nop>
 " could be done by 'set autochdir' or 'autocmd BufEnter * silent! lcd %:p:h'
 " but it could break plugins work
 nnoremap <LocalLeader>cd :lcd %:p:h<CR>:pwd<CR>
-

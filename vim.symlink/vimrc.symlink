@@ -16,6 +16,8 @@ filetype indent on
 
 " python debugger
 autocmd Filetype python iabbrev <buffer> debugger import pudb; pudb.set_trace() # XXX BREAKPOINT
+autocmd Filetype python iabbrev <buffer> debuggerremote from pudb.remote import set_trace; set_trace(term_size=(160, 40), host='0.0.0.0', port=6900) # XXX BREAKPOINT
+
 
 "============== Load custom settings ======
 source ~/.vim/startup/color.vim

@@ -23,6 +23,9 @@ set nolist
 set textwidth=0
 set wrapmargin=0
 
+" Disable auto restoring of <EOL> at the end of file if missing.
+set nofixendofline
+
 " Minimal number of screen lines to keep above and below the cursor.
 set scrolloff=3
 set sidescrolloff=3 " same for horizontally scrolling
@@ -41,6 +44,9 @@ set softtabstop=2
 set shiftwidth=2
 set expandtab
 
+autocmd Filetype php setlocal noexpandtab shiftwidth=2 softtabstop=2 tabstop=2
+autocmd Filetype smarty setlocal noexpandtab shiftwidth=2 softtabstop=2 tabstop=2
+
 set enc=utf-8
 set fillchars=vert:¦
 
@@ -52,11 +58,11 @@ if has('linebreak')
   let &showbreak='↳ ' " DOWNWARDS ARROW WITH TIP RIGHTWARDS (U+21B3, UTF-8: E2 86 B3)
 endif
 
-if exists('+colorcolumn')
-  " Highlight up to 255 columns (this is the current Vim max) beyond 'textwidth'
-  let &l:colorcolumn='+' . join(range(0, 254), ',+')
-endif
-set textwidth=80
+" if exists('+colorcolumn')
+"   " Highlight up to 255 columns (this is the current Vim max) beyond 'textwidth'
+"   let &l:colorcolumn='+' . join(range(0, 254), ',+')
+" endif
+" set textwidth=80
 
 if has('windows')
   set splitbelow                      " open horizontal splits below current window
@@ -77,6 +83,9 @@ set vb t_vb=
 set iminsert=0
 set imsearch=0
 highlight lCursor guifg=NONE guibg=Cyan
+
+" help webpack with file watching mechanism
+set backupcopy=yes
 
 set nobackup
 set nowritebackup
@@ -148,7 +157,10 @@ endif
 " Share
 
 " The defaults for syncing in some syntaxes for vim can be very slow, especially for large files and slow machines.
-augroup syntaxHight
-  autocmd!
-  autocmd BufWinEnter,Syntax * syn sync minlines=200 maxlines=200
-augroup END
+" augroup syntaxHight
+"   autocmd!
+"   autocmd BufWinEnter,Syntax * syn sync minlines=200 maxlines=200
+" augroup END
+
+" autocmd BufWritePost * :call SyncUploadFile()
+" autocmd BufReadPre * :call SyncDownloadFile()
