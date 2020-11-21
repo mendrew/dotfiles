@@ -16,39 +16,30 @@ Plugin 'VundleVim/Vundle.vim'
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
 
-" Plugin 'ctrlpvim/ctrlp.vim'
-" Plugin 'JazzCore/ctrlp-cmatcher'
 Plugin 'wincent/command-t'
-" Plugin 'devjoe/vim-codequery'
 
+" search with :Ack
 Plugin 'wincent/ferret'
-" Plugin 'ntpeters/vim-better-whitespace'
+
 " for regexp in magic mode
 Plugin 'wincent/loupe'
-" Plugin 'rking/ag.vim'
-" Plugin 'scrooloose/nerdtree'
-" Plugin 'scrooloose/syntastic'
-" Plugin 'scrooloose/nerdcommenter'
 
-Plugin 'tpope/vim-dispatch'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-unimpaired' " ]q is :cnext.
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-vinegar'
+Plugin 'tpope/vim-repeat' " control "." command to repeate recent more specific plugin commands
+Plugin 'tpope/vim-surround' " dealing with pairs of quotes, brackets x>3 => ( x>3 )
+Plugin 'tpope/vim-vinegar' " overrides netrw interface to make it less informative
 
-" Plugin 'wellle/targets.vim'
-" Plugin 'ternjs/tern_for_vim'
-" Plugin 'Valloric/YouCompleteMe'
 Plugin 'w0rp/ale' " async linter
-" Plugin 'easymotion/vim-easymotion'
-" Plugin 'matchit.zip'
+
 " support undo commands
 Plugin 'sjl/gundo.vim'
+
 " support tags
 " Plugin 'majutsushi/tagbar'
 " Plugin 'xolox/vim-easytags'
 " Plugin 'xolox/vim-misc'
+
 " snippets support
 " Plugin 'Shougo/neocomplete'
 " Plugin 'Shougo/neosnippet'
@@ -56,39 +47,22 @@ Plugin 'sjl/gundo.vim'
 " Plugin 'honza/vim-snippets'
 
 " language specific
-" Plugin 'Chiel92/vim-autoformat'
-
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
 Plugin 'leafgarland/typescript-vim'
 Plugin 'peitalin/vim-jsx-typescript'
 
-" Plugin 'gavocanov/vim-js-indent'
-" Plugin 'mattn/emmet-vim'
-
 Plugin 'othree/html5.vim'
 
-" Plugin 'klen/python-mode'
-" Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'gorodinskiy/vim-coloresque'
 Plugin 'moll/vim-node'
-Plugin 'nikvdp/ejs-syntax'
-" Plugin 'umutcoskun/vim-mule' " for django, long vim start
-" Plugin 'godlygeek/tabular'
-" Plugin 'plasticboy/vim-markdown'
-" Plugin 'chrisbra/csv.vim'
-" Plugin 'mpyatishev/vim-sqlformat'
 Plugin 'jparise/vim-graphql'
-" php
-Plugin 'StanAngeloff/php.vim'
-Plugin '2072/PHP-Indenting-for-VIm'
 
 "
 " for git
 Plugin 'tpope/vim-fugitive', {'name': 'fugitive'}
 Plugin 'tpope/vim-rhubarb'
-Plugin 'junegunn/gv.vim'
 
 " for mercurial
 " Plugin 'ludovicchabant/vim-lawrencium'
@@ -97,20 +71,10 @@ Plugin 'junegunn/gv.vim'
 " Plugin 'vim-airline/vim-airline-themes'
 "
 " colors
-Plugin 'endel/vim-github-colorscheme'
-Plugin 'rakr/vim-two-firewatch'
-
-Plugin 'cseelus/vim-colors-lucid'
-Plugin 'tyrannicaltoucan/vim-deep-space'
-Plugin 'ayu-theme/ayu-vim'
 Plugin 'altercation/vim-colors-solarized'
-" Plugin 'sjl/badwolf'
-" Plugin 'w0ng/vim-hybrid'
-Plugin 'trevordmiller/nova-vim'
-
 
 " System modifications
-Plugin 'wincent/terminus'
+" Plugin 'wincent/terminus'
 
 " Ruskey
 Plugin 'powerman/vim-plugin-ruscmd'
@@ -121,7 +85,7 @@ Plugin 'powerman/vim-plugin-ruscmd'
 
 " CodeStyle per project
 Plugin 'editorconfig/editorconfig-vim'
-Plugin 'prettier/vim-prettier'
+" Plugin 'prettier/vim-prettier'
 
 
 " plugin from http://vim-scripts.org/vim/scripts.html
