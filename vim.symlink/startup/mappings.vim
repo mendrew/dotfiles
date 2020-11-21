@@ -4,6 +4,11 @@ let maplocalleader=','
 " Exit from insert mode easy way
 inoremap jk <esc>
 
+" Disable Ex mode which needs :visual to get back
+:nnoremap Q <Nop>
+" Prevent unnoing K mapping
+nnoremap K <nop>
+
 " Editing vimrc mapping
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 " Enable vimrc changes on fly
@@ -12,9 +17,6 @@ nnoremap <leader>sv :source $MYVIMRC<cr>
 " <Leader>p -- Show the path of the current file (mnemonic: path; useful when
 " you have a lot of splits and the status line gets truncated).
 nnoremap <Leader>p :echo expand('%')<CR>
-
-" <Leader><Leader> -- Open last buffer.
-nnoremap <Leader><Leader> <C-^>
 
 nnoremap <Leader>o :only<CR>
 nnoremap <Leader>q :quit<CR>
@@ -46,26 +48,3 @@ nnoremap <S-H> gT
 nnoremap <S-L> gt
 xnoremap <S-H> gT
 xnoremap <S-L> gt
-
-" Unmap the arrow keys
-" no <down> ddp
-noremap <down> <Nop>
-noremap <left> <Nop>
-noremap <right> <Nop>
-noremap <up> <Nop>
-ino <down> <Nop>
-ino <left> <Nop>
-ino <right> <Nop>
-ino <up> <Nop>
-vno <down> <Nop>
-vno <left> <Nop>
-vno <right> <Nop>
-vno <up> <Nop>
-
-" Prevent unnoing K mapping
-nnoremap K <nop>
-
-" Set working directory to the current file
-" could be done by 'set autochdir' or 'autocmd BufEnter * silent! lcd %:p:h'
-" but it could break plugins work
-nnoremap <LocalLeader>cd :lcd %:p:h<CR>:pwd<CR>
