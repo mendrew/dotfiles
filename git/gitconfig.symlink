@@ -8,7 +8,7 @@
 	tool = vimdiff
 [alias]
 	print = log --all --oneline --decorate --graph
-	printl = log --oneline --decorate --graph
+	printl = log --oneline --decorate --graph --first-parent
   checkoutf = "! git branch | fzf | xargs git checkout"
 [push]
 	default = simple
