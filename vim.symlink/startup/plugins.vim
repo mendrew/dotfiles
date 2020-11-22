@@ -5,6 +5,8 @@ filetype off                  " required
 
 call plug#begin('~/.vim/bundle')
 
+" Command-t installation fails in MacOS. This is the custom version of it for
+" my computer. Based on this discussion: https://github.com/wincent/command-t/issues/341#issuecomment-522216390
 let g:commandt_install = 'cd ruby/command-t/ext/command-t; make clean; /usr/local/opt/ruby/bin/ruby extconf.rb; make; make install;'
 Plug 'wincent/command-t', { 'do': g:commandt_install }
 
