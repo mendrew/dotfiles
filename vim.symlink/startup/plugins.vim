@@ -5,7 +5,8 @@ filetype off                  " required
 
 call plug#begin('~/.vim/bundle')
 
-Plug 'wincent/command-t'
+let g:commandt_install = 'cd ruby/command-t/ext/command-t; make clean; /usr/local/opt/ruby/bin/ruby extconf.rb; make; make install;'
+Plug 'wincent/command-t', { 'do': g:commandt_install }
 
 " search with :Ack
 Plug 'wincent/ferret'
