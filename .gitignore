@@ -4,6 +4,6 @@
 /vim.symlink/bundle/*
 !/vim.symlink/bundle/Vundle.vim
 /vim.symlink/.netrwhist
-.vim/tmp
+/vim.symlink/tmp
 
 .DS_Store

@@ -23,6 +23,7 @@ Plug 'tpope/vim-surround' " dealing with pairs of quotes, brackets x>3 => ( x>3 
 Plug 'tpope/vim-vinegar' " overrides netrw interface to make it less informative
 
 Plug 'w0rp/ale' " async linter
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " support undo commands
 Plug 'sjl/gundo.vim'
