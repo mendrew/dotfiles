@@ -97,6 +97,11 @@ if exists('$SUDO_USER')
 else
   set backupdir=~/.vim/tmp/backup    " keep backup files out of the way
   set backupdir+=.
+
+  " vim won't create folder automatically for you
+  if !isdirectory($HOME . "/.vim/tmp/backup")
+    call mkdir($HOME . "/.vim/tmp/backup", "p", 0700)
+  endif
 endif
 
 if exists('$SUDO_USER')
@@ -104,6 +109,11 @@ if exists('$SUDO_USER')
 else
   set directory=~/.vim/tmp/swap//    " keep swap files out of the way
   set directory+=.
+
+  " vim won't create folder automatically for you
+  if !isdirectory($HOME . "/.vim/tmp/swap")
+    call mkdir($HOME . "/.vim/tmp/swap", "p", 0700)
+  endif
 endif
 
 set swapsync=  " let OS sync swapfiles lazily
@@ -118,6 +128,11 @@ if has('persistent_undo')
     set undodir+=~/.vim/tmp/undo      " keep undo files out of the way
     set undodir+=.
     set undofile                      " actually use undo files
+
+    " vim won't create folder automatically for you
+    if !isdirectory($HOME . "/.vim/tmp/undo")
+      call mkdir($HOME . "/.vim/tmp/undo", "p", 0700)
+    endif
   endif
 endif
 
