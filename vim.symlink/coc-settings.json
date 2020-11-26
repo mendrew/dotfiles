@@ -1,1 +1,4 @@
-{}
+{
+  // to show autocomplete only by some trigger key
+  "suggest.autoTrigger": "trigger"
+}
