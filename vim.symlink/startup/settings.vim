@@ -58,11 +58,11 @@ if has('linebreak')
   let &showbreak='↳ ' " DOWNWARDS ARROW WITH TIP RIGHTWARDS (U+21B3, UTF-8: E2 86 B3)
 endif
 
-" if exists('+colorcolumn')
-"   " Highlight up to 255 columns (this is the current Vim max) beyond 'textwidth'
-"   let &l:colorcolumn='+' . join(range(0, 254), ',+')
-" endif
-" set textwidth=80
+if exists('+colorcolumn')
+  " Highlight up to 255 columns (this is the current Vim max) beyond 'textwidth'
+  let &l:colorcolumn='+' . join(range(0, 254), ',+')
+endif
+set textwidth=80
 
 if has('windows')
   set splitbelow                      " open horizontal splits below current window
