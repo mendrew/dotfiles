@@ -2,7 +2,6 @@ syntax on
 " numbers
 set number
 set relativenumber
-set cursorline
 
 " Search options
 set gdefault                " Add the g flag to search/replace by default
