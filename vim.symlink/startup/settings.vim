@@ -163,9 +163,6 @@ if has('mksession')
   set viewoptions=cursor,folds        " save/restore just these (with `:{mk,load}view`)
 endif
 
-" " enable hardtime to break habits like jjjj, kkkk
-" let g:hardtime_default_on = 1
-
 
 " Speed up Syntax Highlighting
 " Edit

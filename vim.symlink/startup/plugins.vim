@@ -28,17 +28,6 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " support undo commands
 Plug 'sjl/gundo.vim'
 
-" support tags
-" Plug 'majutsushi/tagbar'
-" Plug 'xolox/vim-easytags'
-" Plug 'xolox/vim-misc'
-
-" snippets support
-" Plug 'Shougo/neocomplete'
-" Plug 'Shougo/neosnippet'
-" Plug 'Shougo/neosnippet-snippets'
-" Plug 'honza/vim-snippets'
-
 " language specific
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
@@ -57,28 +46,14 @@ Plug 'jparise/vim-graphql'
 Plug 'tpope/vim-fugitive', {'name': 'fugitive'}
 Plug 'tpope/vim-rhubarb'
 
-" for mercurial
-" Plug 'ludovicchabant/vim-lawrencium'
-
-" Plug 'vim-airline/vim-airline'
-" Plug 'vim-airline/vim-airline-themes'
-"
 " colors
 Plug 'altercation/vim-colors-solarized'
-
-" System modifications
-" Plug 'wincent/terminus'
 
 " Ruskey
 Plug 'powerman/vim-plugin-ruscmd'
 
-" Break habbits
-" Plug 'takac/vim-hardtime'
-" Plug 'wikitopian/hardmode'
-
 " CodeStyle per project
 Plug 'editorconfig/editorconfig-vim'
-" Plug 'prettier/vim-prettier'
 
 " All of your Plugins must be added before the following line
 call plug#end()            " required
