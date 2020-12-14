@@ -35,3 +35,17 @@ let g:coc_disable_transparent_cursor = 1
 
 nmap <silent> [g <Plug>(coc-diagnostic-next)
 nmap <silent> ]g <Plug>(coc-diagnostic-prev)
+
+function! SetupEnvironmentPerProject()
+  let l:path = expand('%:p')
+  if l:path =~ 'cala/studio'
+    if &filetype == 'typescript' || &filetype == "typescript.tsx"
+      :call CocAction('activeExtension', 'coc-eslint')
+      :call CocAction('deactivateExtension', 'coc-tslint')
+    endif
+  elseif l:path =~ 'cala/'
+    :call CocAction('activeExtension', 'coc-tslint')
+    :call CocAction('deactivateExtension', 'coc-eslint')
+  endif
+endfunction
+autocmd! BufReadPost,BufNewFile * call SetupEnvironmentPerProject()
