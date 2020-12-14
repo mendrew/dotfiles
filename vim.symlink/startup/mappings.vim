@@ -26,13 +26,6 @@ iabbrev tehn then
 iabbrev waht what
 iabbrev @@ andr.medv.spb@gmail.com
 
-" Auto-center in view
-nnoremap G Gzz
-noremap n nzz
-noremap N Nzz
-noremap } }zz
-noremap { {zz
-
 " Split mapping
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j

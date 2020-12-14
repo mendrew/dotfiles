@@ -21,8 +21,9 @@ Plug 'tpope/vim-unimpaired' " ]q is :cnext.
 Plug 'tpope/vim-repeat' " control "." command to repeate recent more specific plugin commands
 Plug 'tpope/vim-surround' " dealing with pairs of quotes, brackets x>3 => ( x>3 )
 Plug 'tpope/vim-vinegar' " overrides netrw interface to make it less informative
+Plug 'tpope/vim-projectionist'
+Plug 'tpope/vim-dispatch'
 
-Plug 'w0rp/ale' " async linter
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " support undo commands
