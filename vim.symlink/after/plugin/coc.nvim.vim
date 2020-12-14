@@ -32,3 +32,6 @@ command! -nargs=0 Format :call CocAction('format')
 " Cursor disappears after go to definition or reference
 " the only fix exists
 let g:coc_disable_transparent_cursor = 1
+
+nmap <silent> [g <Plug>(coc-diagnostic-next)
+nmap <silent> ]g <Plug>(coc-diagnostic-prev)
