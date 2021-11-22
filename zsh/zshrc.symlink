@@ -86,3 +86,4 @@ export LC_ALL=en_US.UTF-8
 
 # To set private environment variables like tokens
 source ~/.env.private
+if [ -e /Users/mendrew/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/mendrew/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
