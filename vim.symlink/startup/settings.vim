@@ -11,11 +11,7 @@ set smartcase               " Override the 'ignorecase' option if the search pat
 set incsearch               " While typing a search command, show where the pattern
 nnoremap <silent> <cr> :nohlsearch<cr><cr>
 
-" Maximum column in which to search for syntax items.  I
-set synmaxcol=250
 set cmdheight=1
-" set nowrap
-" try to wrap too long line like optimization line
 set wrap
 set linebreak
 set nolist
@@ -44,7 +40,6 @@ set shiftwidth=2
 set expandtab
 
 autocmd Filetype php setlocal noexpandtab shiftwidth=2 softtabstop=2 tabstop=2
-autocmd Filetype smarty setlocal noexpandtab shiftwidth=2 softtabstop=2 tabstop=2
 
 set enc=utf-8
 set fillchars=vert:¦
@@ -64,9 +59,6 @@ endif
 if has('vertsplit')
   set splitright                      " open vertical splits to the right of the current window
 endif
-
-" set spell checking
-set spell
 
 set laststatus=2
 set vb t_vb=

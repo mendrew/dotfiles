@@ -31,17 +31,6 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'sjl/gundo.vim'
 
 " language specific
-Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
-Plug 'leafgarland/typescript-vim'
-Plug 'peitalin/vim-jsx-typescript'
-
-Plug 'othree/html5.vim'
-
-Plug 'cakebaker/scss-syntax.vim'
-Plug 'gorodinskiy/vim-coloresque'
-Plug 'moll/vim-node'
-Plug 'jparise/vim-graphql'
 
 "
 " for git
