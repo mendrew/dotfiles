@@ -155,17 +155,3 @@ if has('mksession')
   endif
   set viewoptions=cursor,folds        " save/restore just these (with `:{mk,load}view`)
 endif
-
-
-" Speed up Syntax Highlighting
-" Edit
-" Share
-
-" The defaults for syncing in some syntaxes for vim can be very slow, especially for large files and slow machines.
-" augroup syntaxHight
-"   autocmd!
-"   autocmd BufWinEnter,Syntax * syn sync minlines=200 maxlines=200
-" augroup END
-
-" autocmd BufWritePost * :call SyncUploadFile()
-" autocmd BufReadPre * :call SyncDownloadFile()
