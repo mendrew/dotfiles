@@ -23,6 +23,7 @@ Plug 'tpope/vim-surround' " dealing with pairs of quotes, brackets x>3 => ( x>3 
 Plug 'tpope/vim-vinegar' " overrides netrw interface to make it less informative
 Plug 'tpope/vim-projectionist'
 Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-abolish'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
