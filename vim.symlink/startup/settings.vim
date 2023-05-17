@@ -39,6 +39,10 @@ set softtabstop=2
 set shiftwidth=2
 set expandtab
 
+" automatic indentation on new line
+set autoindent
+set smartindent
+
 autocmd Filetype php setlocal noexpandtab shiftwidth=2 softtabstop=2 tabstop=2
 
 set enc=utf-8
