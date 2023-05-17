@@ -19,8 +19,8 @@ function! s:show_documentation()
 endfunction
 
 " Trigger coc autocomplete using omnifunc keys
-inoremap <silent><expr> <c-n> coc#refresh()
-inoremap <silent><expr> <c-p> coc#refresh()
+inoremap <silent><expr> <c-n> coc#pum#visible() ? coc#pum#next(1) : coc#refresh()
+inoremap <silent><expr> <c-p> coc#pum#visible() ? coc#pum#prev(1) : coc#refresh()
 
 " Formatting selected code.
 xnoremap <leader>f  <Plug>(coc-format-selected)
