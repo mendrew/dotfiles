@@ -8,7 +8,7 @@ call plug#begin('~/.vim/bundle')
 " Command-t installation fails in MacOS. This is the custom version of it for
 " my computer. Based on this discussion: https://github.com/wincent/command-t/issues/341#issuecomment-522216390
 let g:commandt_install = 'cd ruby/command-t/ext/command-t; make clean; /usr/local/opt/ruby/bin/ruby extconf.rb; make; make install;'
-Plug 'wincent/command-t', { 'do': g:commandt_install }
+Plug 'wincent/command-t', { 'tag': '5.0.5' ,'do': g:commandt_install }
 
 " search with :Ack
 Plug 'wincent/ferret'
@@ -45,6 +45,11 @@ Plug 'powerman/vim-plugin-ruscmd'
 
 " CodeStyle per project
 Plug 'editorconfig/editorconfig-vim'
+
+if has('nvim')
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-telescope/telescope.nvim'
+endif
 
 " All of your Plugins must be added before the following line
 call plug#end()            " required
