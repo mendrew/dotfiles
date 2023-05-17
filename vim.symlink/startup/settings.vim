@@ -105,7 +105,9 @@ else
   endif
 endif
 
-set swapsync=  " let OS sync swapfiles lazily
+if !has("nvim")
+  set swapsync=  " let OS sync swapfiles lazily
+endif
 set updatecount=80   " update swapfiles every 80 typed chars
 set updatetime=2000  " same as YCM
 
