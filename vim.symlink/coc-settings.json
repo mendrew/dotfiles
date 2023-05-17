@@ -1,4 +1,8 @@
 {
   // to show autocomplete only by some trigger key
-  "suggest.autoTrigger": "trigger"
+  "suggest.autoTrigger": "trigger",
+  "tsserver.log": "verbose",
+  "tsserver.trace.server": "verbose",
+  "tsserver.tsconfigPath": "tsconfig.lint.json",
+  "tsserver.disableAutomaticTypeAcquisition": false
 }
